@@ -1,0 +1,76 @@
+<div class="page">
+  <form class="card" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <h1>Register customer</h1>
+    <p class="subtitle">Testing page for <code>POST /customers/register</code></p>
+
+    <div class="field">
+      <label for="userId">User ID</label>
+      <div class="user-id-row">
+        <input id="userId" type="text" [value]="userId()" readonly />
+        <button type="button" class="btn-secondary" (click)="regenerateUserId()">Regenerate</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" />
+      @if (form.controls.name.invalid && form.controls.name.touched) {
+        <span class="error">Name is required.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      @if (form.controls.email.invalid && form.controls.email.touched) {
+        <span class="error">A valid email is required.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label for="street">Street</label>
+      <input id="street" type="text" formControlName="street" />
+      @if (form.controls.street.invalid && form.controls.street.touched) {
+        <span class="error">Street is required.</span>
+      }
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="city">City</label>
+        <input id="city" type="text" formControlName="city" />
+        @if (form.controls.city.invalid && form.controls.city.touched) {
+          <span class="error">City is required.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="postalCode">Postal code</label>
+        <input id="postalCode" type="text" formControlName="postalCode" />
+        @if (form.controls.postalCode.invalid && form.controls.postalCode.touched) {
+          <span class="error">Postal code is required.</span>
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="country">Country</label>
+      <input id="country" type="text" formControlName="country" />
+      @if (form.controls.country.invalid && form.controls.country.touched) {
+        <span class="error">Country is required.</span>
+      }
+    </div>
+
+    @if (registeredId()) {
+      <div class="banner success">Customer registered — id: {{ registeredId() }}</div>
+    }
+
+    @if (errorMessage()) {
+      <div class="banner danger">{{ errorMessage() }}</div>
+    }
+
+    <button type="submit" class="btn-primary" [disabled]="submitting()">
+      {{ submitting() ? 'Registering…' : 'Register customer' }}
+    </button>
+  </form>
+</div>
