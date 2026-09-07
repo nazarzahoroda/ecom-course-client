@@ -1,19 +1,10 @@
 <div class="page">
   <form class="card" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-    <h1>Register customer</h1>
-    <p class="subtitle">Testing page for <code>POST /customers/register</code></p>
-
-    <div class="field">
-      <label for="userId">User ID</label>
-      <div class="user-id-row">
-        <input id="userId" type="text" [value]="userId()" readonly />
-        <button type="button" class="btn-secondary" (click)="regenerateUserId()">Regenerate</button>
-      </div>
-    </div>
+    <h1>Register</h1>
 
     <div class="field">
       <label for="name">Name</label>
-      <input id="name" type="text" formControlName="name" />
+      <input id="name" type="text" formControlName="name" /> 
       @if (form.controls.name.invalid && form.controls.name.touched) {
         <span class="error">Name is required.</span>
       }
@@ -26,7 +17,13 @@
         <span class="error">A valid email is required.</span>
       }
     </div>
-
+    <div class="field">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+      @if (form.controls.password.invalid && form.controls.password.touched) {
+        <span class="error">Password is required.</span>
+      }
+    </div>
     <div class="field">
       <label for="street">Street</label>
       <input id="street" type="text" formControlName="street" />
@@ -35,7 +32,7 @@
       }
     </div>
 
-    <div class="field-row">
+    <div class="field">
       <div class="field">
         <label for="city">City</label>
         <input id="city" type="text" formControlName="city" />
@@ -61,16 +58,18 @@
       }
     </div>
 
-    @if (registeredId()) {
-      <div class="banner success">Customer registered — id: {{ registeredId() }}</div>
-    }
-
     @if (errorMessage()) {
       <div class="banner danger">{{ errorMessage() }}</div>
     }
 
-    <button type="submit" class="btn-primary" [disabled]="submitting()">
-      {{ submitting() ? 'Registering…' : 'Register customer' }}
-    </button>
+<div class="actions">
+      <button type="submit" class="btn-primary" [disabled]="submitting()">
+        {{ submitting() ? 'Registering…' : 'Register customer' }}
+      </button>
+
+      <button type="button" class="btn-secondary" routerLink="/login">
+        Already have an account? Log in
+      </button>
+    </div>
   </form>
 </div>

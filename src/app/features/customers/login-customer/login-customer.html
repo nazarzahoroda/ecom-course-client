@@ -1,0 +1,38 @@
+<div class="page">
+  <form class="card" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <h1>Login</h1>
+
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      @if (form.controls.email.invalid && form.controls.email.touched) {
+        <span class="error">A valid email is required.</span>
+      }
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+      @if (form.controls.password.invalid && form.controls.password.touched) {
+        <span class="error">Password is required.</span>
+      }
+    </div>
+    
+
+
+
+    @if (errorMessage()) {
+      <div class="banner danger">{{ errorMessage() }}</div>
+    }
+
+    <div class="actions">
+      <button type="submit" class="btn-primary" [disabled]="submitting()">
+        {{ submitting() ? 'Logging in…' : 'Login' }}
+      </button>
+
+      <button type="button" class="btn-secondary" routerLink="/register">
+        Don't have an account? Register
+      </button>
+    </div>
+  </form>
+</div>
