@@ -20,4 +20,9 @@ export const routes: Routes = [
         (m) => m.LoginCustomer,
       ),
   },
+  {
+    path: 'admin',
+    loadComponent: () =>
+      import('./features/admin/admin-view').then((m) => m.AdminView),
+  },
 ];

@@ -1,0 +1,19 @@
+<h1>Admin View</h1>
+
+<h2>Categories</h2>
+
+@for (category of categories(); track category.id) {
+  <p>{{ category.name }}</p>
+}
+
+<h2>Products</h2>
+
+@for (product of products(); track product.id) {
+  <p>
+    {{ product.name }} |
+    {{ product.amount }} |
+    {{ getCurrencyName(product.currency) }} |
+    {{ product.sku }} |
+    {{ getCategoryName(product.categoryId) }}
+  </p>
+}
