@@ -20,4 +20,11 @@ export const routes: Routes = [
         (m) => m.LoginCustomer,
       ),
   },
+  {
+    path: 'products',
+    loadComponent: () =>
+      import('./features/products/products-view/products-view').then(
+        (m) => m.ProductsView
+      ),
+  },
 ];
