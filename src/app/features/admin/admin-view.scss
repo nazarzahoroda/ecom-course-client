@@ -1,0 +1,155 @@
+.admin-page {
+  min-height: 100vh;
+  padding: 40px;
+  background: #f5f7fa;
+}
+
+.admin-header {
+  margin-bottom: 32px;
+  text-align: center;
+
+  h1 {
+    margin: 0;
+    font-size: 32px;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: #667085;
+  }
+}
+
+.admin-section {
+  max-width: 1200px;
+  padding: 24px;
+  margin: 0 auto 32px;
+  background: white;
+  border-radius: 12px;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+.category-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border: 1px solid #eaecf0;
+  border-radius: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+
+  button {
+    padding: 6px 10px;
+    border: 1px solid #d0d5dd;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+
+    &:hover {
+      background: #f9fafb;
+    }
+  }
+}
+
+.product-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+
+  input,
+  select {
+    padding: 10px 12px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+  }
+
+  button {
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+}
+.product-table {
+  overflow-x: auto;
+}
+
+.product-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid #eaecf0;
+
+  span {
+    min-width: 0;
+  }
+}
+
+.product-header {
+  font-weight: 600;
+  color: #475467;
+  background: #f9fafb;
+  border-radius: 8px 8px 0 0;
+}
+
+.categories-section {
+  max-width: 600px;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+
+  &:hover {
+    background: #1d4ed8;
+  }
+}
+
+.actions .btn-danger {
+  color: #b42318;
+  border-color: #fecdca;
+
+  &:hover {
+    background: #fef3f2;
+  }
+}

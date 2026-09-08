@@ -1,19 +1,83 @@
-<h1>Admin View</h1>
+<div class="admin-page">
+    <header class="admin-header">
+        <h1>Admin Panel</h1>
+        <p>Manage products and categories</p>
+    </header>
 
-<h2>Categories</h2>
+    <section class="admin-section categories-section">
+        <h2>Categories</h2>
 
-@for (category of categories(); track category.id) {
-  <p>{{ category.name }}</p>
-}
+        <div class="category-form">
+            <input type="text" placeholder="Category name" />
+            <button type="button" class="btn-primary">Add category</button>
+        </div>
 
-<h2>Products</h2>
+        <div class="category-list">
+            @for (category of categories(); track category.id) {
+            <div class="category-row">
+                <span>{{ category.name }}</span>
 
-@for (product of products(); track product.id) {
-  <p>
-    {{ product.name }} |
-    {{ product.amount }} |
-    {{ getCurrencyName(product.currency) }} |
-    {{ product.sku }} |
-    {{ getCategoryName(product.categoryId) }}
-  </p>
-}
+                <div class="actions">
+                    <button type="button">Edit</button>
+                    <button type="button" class="btn-danger">Delete</button>
+                </div>
+            </div>
+            }
+        </div>
+    </section>
+
+    <section class="admin-section">
+        <h2>Products</h2>
+
+        <div class="product-form">
+            <input type="text" placeholder="Product name" />
+
+            <input type="number" placeholder="Amount" />
+
+            <select>
+                <option value="">Select currency</option>
+                <option value="0">USD</option>
+                <option value="1">EUR</option>
+                <option value="2">UAH</option>
+            </select>
+
+            <input type="text" placeholder="SKU" />
+
+            <select>
+                <option value="">Select category</option>
+
+                @for (category of categories(); track category.id) {
+                <option [value]="category.id">{{ category.name }}</option>
+                }
+            </select>
+
+            <button type="button" class="btn-primary">Add product</button>
+        </div>
+
+        <div class="product-table">
+            <div class="product-row product-header">
+                <span>Name</span>
+                <span>Amount</span>
+                <span>Currency</span>
+                <span>SKU</span>
+                <span>Category</span>
+                <span>Actions</span>
+            </div>
+
+            @for (product of products(); track product.id) {
+            <div class="product-row">
+                <span>{{ product.name }}</span>
+                <span>{{ product.amount }}</span>
+                <span>{{ getCurrencyName(product.currency) }}</span>
+                <span>{{ product.sku }}</span>
+                <span>{{ getCategoryName(product.categoryId) }}</span>
+
+                <div class="actions">
+                    <button type="button">Edit</button>
+                    <button type="button" class="btn-danger">Delete</button>
+                </div>
+            </div>
+            }
+        </div>
+    </section>
+</div>

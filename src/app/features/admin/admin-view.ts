@@ -11,6 +11,7 @@ import {
 @Component({
   selector: 'app-admin-view',
   templateUrl: './admin-view.html',
+  styleUrl: './admin-view.scss',
 })
 export class AdminView {
   private readonly categoriesApi = inject(CategoriesApi);
