@@ -1,0 +1,32 @@
+<div class="container">
+    <header class="catalog-header">
+        <h1>Каталог товарів</h1>
+    </header>
+
+    @if (loading()) {
+    <div class="loader">Завантаження товарів...</div>
+    } @else if (errorMessage()) {
+    <div class="banner danger">{{ errorMessage() }}</div>
+    } @else {
+    <div class="products-grid">
+        @for (product of products(); track product.id) {
+        <div class="product-card">
+            <div class="card-body">
+                <span class="sku">SKU: {{ product.sku }}</span>
+                <h3 class="title">{{ product.name }}</h3>
+                <div class="price-row">
+                    <span class="price">{{ product.amount | currency: product.currency }}</span>
+                </div>
+            </div>
+            <div class="card-actions">
+                <button class="btn-primary" (click)="addToCart(product)">
+                    У кошик
+                </button>
+            </div>
+        </div>
+        } @empty {
+        <p class="empty-state">Товарів поки немає.</p>
+        }
+    </div>
+    }
+</div>
