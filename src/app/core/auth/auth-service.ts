@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from "@angular/core";
 import { catchError, Observable, of, tap } from "rxjs";
-import { environment } from "../../../environments/environment.development";
+import { environment } from '../../../environments/environment';
 import { HttpClient } from "@angular/common/http";
 
 export interface UserProfile {
