@@ -1,0 +1,33 @@
+<div class="home-page">
+    <section class="categories-section">
+        <div class="section-header">
+            <h2>Categories</h2>
+            <a href="/products">View all</a>
+        </div>
+
+        <div class="categories-grid">
+            <app-storefront-category-card name="Electronics" imageUrl="/images/categories/electronics.jpg" />
+
+            <app-storefront-category-card name="Clothing" imageUrl="/images/categories/clothing.jpg" />
+
+            <app-storefront-category-card name="Home" imageUrl="/images/categories/home.jpg" />
+
+            <app-storefront-category-card name="Sports" imageUrl="/images/categories/sports.jpg" />
+        </div>
+    </section>
+    <section class="products-section">
+        <div class="section-header">
+            <h2>Products</h2>
+            <a href="/products">View all</a>
+        </div>
+        <div class="products-grid">
+            <app-product-card name="Smartphone" [amount]="799" currency="USD"
+                imageUrl="/images/products/smartphone.jpg" />
+            <app-product-card name="Laptop" [amount]="1299" currency="USD" imageUrl="/images/products/laptop.jpg" />
+            <app-product-card name="Headphones" [amount]="199" currency="USD"
+                imageUrl="/images/products/headphones.jpg" />
+            <app-product-card name="Smart Watch" [amount]="299" currency="USD"
+                imageUrl="/images/products/smart-watch.jpg" />
+        </div>
+    </section>
+</div>
