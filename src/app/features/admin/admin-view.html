@@ -9,7 +9,7 @@
 
         <div class="category-form">
             <input type="text" placeholder="Category name" />
-            <button type="button" class="btn-primary">Add category</button>
+            <app-button variant="primary">Add category</app-button>
         </div>
 
         <div class="category-list">
@@ -18,8 +18,8 @@
                 <span>{{ category.name }}</span>
 
                 <div class="actions">
-                    <button type="button">Edit</button>
-                    <button type="button" class="btn-danger">Delete</button>
+                    <app-button>Edit</app-button>
+                    <app-button variant="danger">Delete</app-button>
                 </div>
             </div>
             }
@@ -51,7 +51,7 @@
                 }
             </select>
 
-            <button type="button" class="btn-primary">Add product</button>
+            <app-button variant="primary" [fullWidth]="true">Add product</app-button>
         </div>
 
         <div class="product-table">
@@ -73,8 +73,8 @@
                 <span>{{ getCategoryName(product.categoryId) }}</span>
 
                 <div class="actions">
-                    <button type="button">Edit</button>
-                    <button type="button" class="btn-danger">Delete</button>
+                    <app-button>Edit</app-button>
+                    <app-button variant="danger">Delete</app-button>
                 </div>
             </div>
             }

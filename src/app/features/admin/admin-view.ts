@@ -7,9 +7,11 @@ import {
   ProductDto,
   ProductsApi,
 } from '../../core/products/products-api';
+import { Button } from '../../shared/components/button/button';
 
 @Component({
   selector: 'app-admin-view',
+  imports: [Button],
   templateUrl: './admin-view.html',
   styleUrl: './admin-view.scss',
 })
