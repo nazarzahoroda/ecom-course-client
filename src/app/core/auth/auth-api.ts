@@ -35,10 +35,10 @@ export class AuthApi {
   private readonly http = inject(HttpClient);
 
   registerUser(request: RegisterDto){
-    return this.http.post(`${environment.apiUrl}/Auth/register`, request);
+    return this.http.post(`${environment.apiUrl}/Auth/register`, request,{withCredentials: true});
   }
   loginUser(request: LoginDto): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/Auth/login`, request);
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/Auth/login`, request,{withCredentials: true});
   }
 }
 

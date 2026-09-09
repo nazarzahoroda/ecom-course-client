@@ -25,4 +25,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/admin/admin-view').then((m) => m.AdminView),
   },
+  {
+    path: 'products',
+    loadComponent: () =>
+      import('./features/products/products-view/products-view').then(
+        (m) => m.ProductsView,
+      ),
+  },
 ];
