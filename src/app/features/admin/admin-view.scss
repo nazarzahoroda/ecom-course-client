@@ -71,24 +71,21 @@
   overflow-x: auto;
 }
 
-.product-row {
+.product-header {
   display: grid;
   grid-template-columns: 1.4fr 0.9fr 0.9fr 1fr 1.8fr 0.8fr;
   gap: 12px;
   align-items: center;
   padding: 12px 14px;
-  border-bottom: 1px solid #eaecf0;
 
-  span {
-    min-width: 0;
-  }
-}
-
-.product-header {
   font-weight: 600;
   color: #475467;
   background: #f9fafb;
   border-radius: 8px 8px 0 0;
+
+  span {
+    min-width: 0;
+  }
 }
 
 .categories-section {

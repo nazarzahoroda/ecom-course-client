@@ -48,7 +48,7 @@
         </div>
 
         <div class="product-table">
-            <div class="product-row product-header">
+            <div class="product-header">
                 <span>Name</span>
                 <span>Amount</span>
                 <span>Currency</span>
@@ -58,18 +58,8 @@
             </div>
 
             @for (product of products(); track product.id) {
-            <div class="product-row">
-                <span>{{ product.name }}</span>
-                <span>{{ product.amount }}</span>
-                <span>{{ getCurrencyName(product.currency) }}</span>
-                <span>{{ product.sku }}</span>
-                <span>{{ getCategoryName(product.categoryId) }}</span>
-
-                <div class="actions">
-                    <app-button>Edit</app-button>
-                    <app-button variant="danger">Delete</app-button>
-                </div>
-            </div>
+            <app-admin-product-row [product]="product" [currencyName]="getCurrencyName(product.currency)"
+                [categoryName]="getCategoryName(product.categoryId)" />
             }
         </div>
     </section>

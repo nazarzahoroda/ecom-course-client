@@ -9,10 +9,11 @@ import {
 } from '../../core/products/products-api';
 import { Button } from '../../shared/components/button/button';
 import { CategoryCard } from '../../shared/components/category-card/category-card';
+import { AdminProductRow } from '../../shared/components/admin-product-row/admin-product-row';
 
 @Component({
   selector: 'app-admin-view',
-  imports: [Button, CategoryCard],
+  imports: [Button, CategoryCard, AdminProductRow],
   templateUrl: './admin-view.html',
   styleUrl: './admin-view.scss',
 })
