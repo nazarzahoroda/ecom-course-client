@@ -8,10 +8,11 @@ import {
   ProductsApi,
 } from '../../core/products/products-api';
 import { Button } from '../../shared/components/button/button';
+import { CategoryCard } from '../../shared/components/category-card/category-card';
 
 @Component({
   selector: 'app-admin-view',
-  imports: [Button],
+  imports: [Button, CategoryCard],
   templateUrl: './admin-view.html',
   styleUrl: './admin-view.scss',
 })

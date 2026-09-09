@@ -51,20 +51,6 @@
   gap: 8px;
 }
 
-.category-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 14px;
-  border: 1px solid #eaecf0;
-  border-radius: 8px;
-}
-
-.actions {
-  display: flex;
-  gap: 8px;
-}
-
 .product-form {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

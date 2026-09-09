@@ -14,14 +14,7 @@
 
         <div class="category-list">
             @for (category of categories(); track category.id) {
-            <div class="category-row">
-                <span>{{ category.name }}</span>
-
-                <div class="actions">
-                    <app-button>Edit</app-button>
-                    <app-button variant="danger">Delete</app-button>
-                </div>
-            </div>
+            <app-category-card [category]="category" />
             }
         </div>
     </section>
