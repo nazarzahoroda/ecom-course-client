@@ -19,4 +19,8 @@ export class ProductsApi {
     getProducts(): Observable<ProductDto[]> {
         return this.http.get<ProductDto[]>(`${environment.apiUrl}/Products`);
     }
+
+    getProductById(id: string): Observable<ProductDto> {
+        return this.http.get<ProductDto>(`${environment.apiUrl}/Products/${id}`);
+    }
 }
