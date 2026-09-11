@@ -2,6 +2,7 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ProductsApi, ProductDto } from '../../../core/products/products-api';
 import { RouterLink } from '@angular/router';
+import { CartApi } from '../../../core/carts/cart-api';
 
 @Component({
     selector: 'app-products-view',
@@ -12,6 +13,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ProductsView implements OnInit {
     private readonly productsApi = inject(ProductsApi);
+    private readonly cartApi = inject(CartApi);
 
     protected readonly products = signal<ProductDto[]>([]);
     protected readonly loading = signal(true);
@@ -36,6 +38,11 @@ export class ProductsView implements OnInit {
     }
 
     protected addToCart(product: ProductDto): void {
-        console.log('Додано в кошик:', product);
+        this.cartApi.addItemToCart({ productId: product.id, quantity: 1 }).subscribe({
+            next: () => {
+                console.log(`Товар ${product.name} додано до кошика`);
+            },
+            
+    });
     }
 }

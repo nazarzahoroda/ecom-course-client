@@ -1,12 +1,18 @@
 import { Routes } from '@angular/router';
 
 import { authGuard } from './core/auth/auth-guard';
+import { inject } from '@angular/core';
+import { AuthService } from './core/auth/auth-service';
 
 export const routes: Routes = [
+  
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'register',
+    redirectTo: () => {
+      const authService = inject(AuthService);
+      return authService.isAuthenticated() ? 'products' : 'login';
+    },
   },
   {
     path: 'register',
@@ -39,6 +45,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/orders/orders-view/orders-view').then(
         (m) => m.OrdersView
+      ),
+  },
+  {
+    path: 'cart',
+    loadComponent: () =>
+      import('./features/carts/cart-view/cart-view').then(
+        (m) => m.CartView
       ),
   },
 ];
