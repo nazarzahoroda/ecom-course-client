@@ -25,7 +25,7 @@ export class CustomersApi {
   private readonly http = inject(HttpClient);
 
   registerCustomer(request: RegisterCustomerRequest): Observable<string> {
-    return this.http.post<string>(`${environment.apiUrl}/customers/register`, request);
+    return this.http.post<string>(`${environment.apiUrl}/customers/register`, request,{withCredentials: true});
   }
 }
 
