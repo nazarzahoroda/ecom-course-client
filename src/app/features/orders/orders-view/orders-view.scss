@@ -1,0 +1,178 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.orders-header {
+    margin-bottom: 2rem;
+
+    h1 {
+        font-size: 1.875rem;
+        color: var(--color-text);
+    }
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.order-card {
+    background: var(--color-surface);
+    border: 1px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.order-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem;
+    cursor: pointer;
+
+    .order-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        .order-id {
+            font-weight: 600;
+            color: var(--color-text);
+        }
+    }
+
+    .total {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--color-primary);
+    }
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+
+    &.status-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    &.status-paid {
+        background: #dcfce7;
+        color: var(--color-success);
+    }
+
+    &.status-cancelled {
+        background: #fee2e2;
+        color: var(--color-danger);
+    }
+}
+
+.order-details {
+    border-top: 1px solid #e2e8f0;
+    padding: 1rem 1.25rem;
+
+    .lines {
+        list-style: none;
+        margin: 0 0 1rem;
+        padding: 0;
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.4rem 0;
+            color: var(--color-text-secondary);
+
+            .line-name {
+                flex: 1;
+                color: var(--color-text);
+            }
+        }
+    }
+}
+
+.order-actions {
+    display: flex;
+    gap: 0.75rem;
+
+    button {
+        flex: 1;
+    }
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+
+    button {
+        padding: 0.5rem 1rem;
+    }
+}
+
+.loader,
+.empty-state {
+    color: var(--color-text-secondary);
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.banner {
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+
+    &.danger {
+        background: color-mix(in srgb, var(--color-danger) 12%, transparent);
+        color: var(--color-danger);
+    }
+}
+
+.btn-primary {
+    font: inherit;
+    font-weight: 500;
+    padding: 0.625rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    background: var(--color-primary);
+    color: var(--color-surface);
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+        background: var(--color-primary-dark);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.btn-secondary {
+    font: inherit;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: var(--border-radius);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
