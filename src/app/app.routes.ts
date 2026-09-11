@@ -30,6 +30,10 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'products/:id',
+    loadComponent: () => import('./features/products/product-details/product-details').then(m => m.ProductDetailsComponent),
+  },
+  {
     path: 'orders',
     canActivate: [authGuard],
     loadComponent: () =>

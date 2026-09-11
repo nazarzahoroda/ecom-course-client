@@ -1,11 +1,12 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ProductsApi, ProductDto } from '../../../core/products/products-api';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-products-view',
     standalone: true,
-    imports: [CurrencyPipe],
+    imports: [CurrencyPipe, RouterLink],
     templateUrl: './products-view.html',
     styleUrl: './products-view.scss',
 })
@@ -35,7 +36,6 @@ export class ProductsView implements OnInit {
     }
 
     protected addToCart(product: ProductDto): void {
-        // Інтеграція з кошиком
         console.log('Додано в кошик:', product);
     }
 }
