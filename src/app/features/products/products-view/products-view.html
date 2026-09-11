@@ -37,7 +37,7 @@
                 </h3>
 
                 <div class="text-sm font-bold text-blue-600 mb-4">
-                    {{ product.amount | currency: product.currency }}
+                    {{ product.amount | currency: getCurrencyCode(product.currency) }}
                 </div>
 
                 <div class="text-xs text-gray-400 mb-4 mt-auto">

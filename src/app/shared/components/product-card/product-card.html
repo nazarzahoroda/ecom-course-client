@@ -1,17 +1,9 @@
 <article class="product-card">
-  <div class="product-image">
-    <img [src]="imageUrl()" [alt]="name()" />
-  </div>
-
   <div class="product-content">
     <h3>{{ name() }}</h3>
 
     <p class="price">
       {{ amount() }} {{ currency() }}
     </p>
-
-    <button type="button" class="add-to-cart">
-      Add to cart
-    </button>
   </div>
 </article>

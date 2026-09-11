@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { ProductsApi, ProductDto } from '../../../core/products/products-api';
+import { getCurrencyCode, ProductsApi, ProductDto } from '../../../core/products/products-api';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ProductsView implements OnInit {
     private readonly productsApi = inject(ProductsApi);
+    protected readonly getCurrencyCode = getCurrencyCode;
 
     protected readonly products = signal<ProductDto[]>([]);
     protected readonly loading = signal(true);
