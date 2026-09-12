@@ -6,7 +6,11 @@
   <span>{{ categoryName() }}</span>
 
   <div class="actions">
-    <app-button>Edit</app-button>
-    <app-button variant="danger">Delete</app-button>
+    <app-button (click)="edit.emit(product())">
+      Edit
+    </app-button>
+    <app-button variant="danger" (click)="delete.emit(product())">
+      Delete
+    </app-button>
   </div>
 </div>

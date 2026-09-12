@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 import { ProductDto } from '../../../core/products/products-api';
 import { Button } from '../button/button';
@@ -13,4 +13,7 @@ export class AdminProductRow {
   readonly product = input.required<ProductDto>();
   readonly categoryName = input.required<string>();
   readonly currencyName = input.required<string>();
+
+  readonly edit = output<ProductDto>();
+  readonly delete = output<ProductDto>();
 }
