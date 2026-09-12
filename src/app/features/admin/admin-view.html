@@ -1,91 +1,88 @@
-<div class="admin-page">
-    <header class="admin-header">
-        <h1>Admin Panel</h1>
-        <p>Manage products and categories</p>
-    </header>
+<div class="min-h-screen bg-gray-100 p-10">
+  <header class="mb-8 text-center">
+    <h1 class="m-0 text-3xl font-semibold">Admin Panel</h1>
+    <p class="mt-2 text-gray-500">Manage products and categories</p>
+  </header>
 
-    <section class="admin-section categories-section">
-        <h2>Categories</h2>
+  <section class="mx-auto mb-8 max-w-[600px] rounded-xl bg-white p-6">
+    <h2 class="mt-0 text-xl font-semibold">Categories</h2>
 
-        <form class="category-form" [formGroup]="categoryForm" (ngSubmit)="createCategory()">
-            <input type="text" placeholder="Category name" formControlName="name" />
+    <form class="mb-6 flex gap-3" [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+      <input class="flex-1 rounded-lg border border-gray-300 px-3 py-2.5 text-sm" type="text" placeholder="Category name" formControlName="name" />
 
-            <app-button type="submit" variant="primary">
-                {{ editingCategoryId() ? 'Update category' : 'Add category' }}
-            </app-button>
-            @if (editingCategoryId()) {
-            <app-button type="button" (click)="cancelEditCategory()">
-                Cancel
-            </app-button>
-            }
-        </form>
+      <app-button type="submit" variant="primary">
+        {{ editingCategoryId() ? 'Update category' : 'Add category' }}
+      </app-button>
 
-        <div class="category-list">
-            @for (category of categories(); track category.id) {
-            <app-category-card [category]="category" (edit)="startEditCategory($event)"
-                (delete)="deleteCategory($event)" />
-            }
-        </div>
-    </section>
+      @if (editingCategoryId()) {
+        <app-button type="button" (click)="cancelEditCategory()">
+          Cancel
+        </app-button>
+      }
+    </form>
 
-    <section class="admin-section">
-        <h2>Products</h2>
+    <div class="flex flex-col gap-2">
+      @for (category of categories(); track category.id) {
+        <app-category-card [category]="category" (edit)="startEditCategory($event)" (delete)="deleteCategory($event)" />
+      }
+    </div>
+  </section>
 
-        <form class="product-form" [formGroup]="productForm" (ngSubmit)="createProduct()">
-            <input type="text" placeholder="Product name" formControlName="name" />
+  <section class="mx-auto mb-8 max-w-[1200px] rounded-xl bg-white p-6">
+    <h2 class="mt-0 text-xl font-semibold">Products</h2>
 
-            <input type="number" placeholder="Amount" formControlName="amount" />
+    <form class="mb-6 grid grid-cols-2 gap-3" [formGroup]="productForm" (ngSubmit)="createProduct()">
+      <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text" placeholder="Product name" formControlName="name" />
 
-            <select formControlName="currency" [class.text-gray-400]="productForm.controls.currency.value === null">
-                <option [ngValue]="null" disabled>
-                    Select currency
-                </option>
-                <option [ngValue]="0">USD</option>
-                <option [ngValue]="1">EUR</option>
-                <option [ngValue]="2">UAH</option>
-            </select>
+      <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="number" placeholder="Amount" formControlName="amount" />
 
-            <input type="text" placeholder="SKU" formControlName="sku" />
+      <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" formControlName="currency" [class.text-gray-400]="productForm.controls.currency.value === null">
+        <option [ngValue]="null" disabled>
+          Select currency
+        </option>
+        <option [ngValue]="0">USD</option>
+        <option [ngValue]="1">EUR</option>
+        <option [ngValue]="2">UAH</option>
+      </select>
 
-            <select formControlName="categoryId" [class.text-gray-400]="productForm.controls.categoryId.value === null">
-                <option [ngValue]="null" disabled>
-                    Select category
-                </option>
+      <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text" placeholder="SKU" formControlName="sku" />
 
-                @for (category of categories(); track category.id) {
-                <option [value]="category.id">{{ category.name }}</option>
-                }
-            </select>
+      <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" formControlName="categoryId" [class.text-gray-400]="productForm.controls.categoryId.value === null">
+        <option [ngValue]="null" disabled>
+          Select category
+        </option>
 
-            <div class="flex gap-2">
-                <app-button type="submit" variant="primary" [fullWidth]="true" class="flex-1">
-                    Add product
-                </app-button>
+        @for (category of categories(); track category.id) {
+          <option [value]="category.id">{{ category.name }}</option>
+        }
+      </select>
 
-                @if (editingProductId()) {
-                <app-button type="button" variant="primary" [fullWidth]="true" class="flex-1"
-                    (click)="cancelEditProduct()">
-                    Cancel
-                </app-button>
-                }
-            </div>
-        </form>
+      <div class="flex gap-2">
+        <app-button type="submit" variant="primary" [fullWidth]="true" class="flex-1">
+          Add product
+        </app-button>
 
-        <div class="product-table">
-            <div class="product-header">
-                <span>Name</span>
-                <span>Amount</span>
-                <span>Currency</span>
-                <span>SKU</span>
-                <span>Category</span>
-                <span>Actions</span>
-            </div>
+        @if (editingProductId()) {
+          <app-button type="button" variant="primary" [fullWidth]="true" class="flex-1" (click)="cancelEditProduct()">
+            Cancel
+          </app-button>
+        }
+      </div>
+    </form>
 
-            @for (product of products(); track product.id) {
-            <app-admin-product-row [product]="product" [currencyName]="getCurrencyName(product.currency)"
-                [categoryName]="getCategoryName(product.categoryId)" (edit)="startEditProduct($event)"
-                (delete)="deleteProduct($event)" />
-            }
-        </div>
-    </section>
+    <div class="overflow-x-auto">
+      <div class="grid grid-cols-[1.4fr_0.9fr_0.9fr_1fr_1.8fr_0.8fr] items-center gap-3 rounded-t-lg bg-gray-50 px-3.5 py-3 font-semibold text-gray-600">
+        <span class="min-w-0">Name</span>
+        <span class="min-w-0">Amount</span>
+        <span class="min-w-0">Currency</span>
+        <span class="min-w-0">SKU</span>
+        <span class="min-w-0">Category</span>
+        <span class="min-w-0">Actions</span>
+      </div>
+
+      @for (product of products(); track product.id) {
+        <app-admin-product-row [product]="product" [currencyName]="getCurrencyName(product.currency)" [categoryName]="getCategoryName(product.categoryId)" (edit)="startEditProduct($event)" (delete)="deleteProduct($event)" />
+      }
+    </div>
+  </section>
 </div>
