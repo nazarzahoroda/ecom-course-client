@@ -1,0 +1,12 @@
+<div class="product-row">
+  <span>{{ product().name }}</span>
+  <span>{{ product().amount }}</span>
+  <span>{{ currencyName() }}</span>
+  <span>{{ product().sku }}</span>
+  <span>{{ categoryName() }}</span>
+
+  <div class="actions">
+    <app-button>Edit</app-button>
+    <app-button variant="danger">Delete</app-button>
+  </div>
+</div>

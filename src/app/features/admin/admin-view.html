@@ -1,0 +1,75 @@
+<div class="admin-page">
+    <header class="admin-header">
+        <h1>Admin Panel</h1>
+        <p>Manage products and categories</p>
+    </header>
+
+    <section class="admin-section categories-section">
+        <h2>Categories</h2>
+
+        <form class="category-form" [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+            <input type="text" placeholder="Category name" formControlName="name" />
+
+            <app-button type="submit" variant="primary">
+                {{ editingCategoryId() ? 'Update category' : 'Add category' }}
+            </app-button>
+            @if (editingCategoryId()) {
+            <app-button type="button" (click)="cancelEditCategory()">
+                Cancel
+            </app-button>
+            }
+        </form>
+
+        <div class="category-list">
+            @for (category of categories(); track category.id) {
+            <app-category-card [category]="category" (edit)="startEditCategory($event)"
+                (delete)="deleteCategory($event)" />
+            }
+        </div>
+    </section>
+
+    <section class="admin-section">
+        <h2>Products</h2>
+
+        <div class="product-form">
+            <input type="text" placeholder="Product name" />
+
+            <input type="number" placeholder="Amount" />
+
+            <select>
+                <option value="">Select currency</option>
+                <option value="0">USD</option>
+                <option value="1">EUR</option>
+                <option value="2">UAH</option>
+            </select>
+
+            <input type="text" placeholder="SKU" />
+
+            <select>
+                <option value="">Select category</option>
+
+                @for (category of categories(); track category.id) {
+                <option [value]="category.id">{{ category.name }}</option>
+                }
+            </select>
+
+            <app-button variant="primary" [fullWidth]="true">Add product</app-button>
+        </div>
+
+        <div class="product-table">
+            <div class="product-header">
+                <span>Name</span>
+                <span>Amount</span>
+                <span>Currency</span>
+                <span>SKU</span>
+                <span>Category</span>
+                <span>Actions</span>
+            </div>
+
+            @for (product of products(); track product.id) {
+            <app-admin-product-row [product]="product" [currencyName]="product.currency"
+                [categoryName]="getCategoryName(product.categoryId)" />
+            }
+        </div>
+    </section>
+</div>
