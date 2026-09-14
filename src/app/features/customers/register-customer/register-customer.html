@@ -1,73 +1,89 @@
-<div class="page">
-  <form class="card" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-    <h1>Register</h1>
+<div class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <form class="bg-white max-w-lg w-full space-y-5 p-8 rounded-2xl shadow-sm border border-gray-100" [formGroup]="form"
+    (ngSubmit)="onSubmit()" novalidate>
+    <h1 class="text-3xl font-bold text-center text-gray-900 tracking-tight mb-2">Register</h1>
 
-    <div class="field">
-      <label for="name">Name</label>
-      <input id="name" type="text" formControlName="name" /> 
-      @if (form.controls.name.invalid && form.controls.name.touched) {
-        <span class="error">Name is required.</span>
-      }
-    </div>
-
-    <div class="field">
-      <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email" />
-      @if (form.controls.email.invalid && form.controls.email.touched) {
-        <span class="error">A valid email is required.</span>
-      }
-    </div>
-    <div class="field">
-      <label for="password">Password</label>
-      <input id="password" type="password" formControlName="password" />
-      @if (form.controls.password.invalid && form.controls.password.touched) {
-        <span class="error">Password is required.</span>
-      }
-    </div>
-    <div class="field">
-      <label for="street">Street</label>
-      <input id="street" type="text" formControlName="street" />
-      @if (form.controls.street.invalid && form.controls.street.touched) {
-        <span class="error">Street is required.</span>
-      }
-    </div>
-
-    <div class="field">
-      <div class="field">
-        <label for="city">City</label>
-        <input id="city" type="text" formControlName="city" />
-        @if (form.controls.city.invalid && form.controls.city.touched) {
-          <span class="error">City is required.</span>
+    <div class="space-y-4">
+      <div>
+        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+        <input id="name" type="text" formControlName="name"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+        @if (form.controls.name.invalid && form.controls.name.touched) {
+        <span class="text-sm text-red-500 mt-1 block">Name is required.</span>
         }
       </div>
 
-      <div class="field">
-        <label for="postalCode">Postal code</label>
-        <input id="postalCode" type="text" formControlName="postalCode" />
-        @if (form.controls.postalCode.invalid && form.controls.postalCode.touched) {
-          <span class="error">Postal code is required.</span>
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input id="email" type="email" formControlName="email"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+        @if (form.controls.email.invalid && form.controls.email.touched) {
+        <span class="text-sm text-red-500 mt-1 block">A valid email is required.</span>
         }
       </div>
-    </div>
 
-    <div class="field">
-      <label for="country">Country</label>
-      <input id="country" type="text" formControlName="country" />
-      @if (form.controls.country.invalid && form.controls.country.touched) {
-        <span class="error">Country is required.</span>
-      }
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <input id="password" type="password" formControlName="password"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+        @if (form.controls.password.invalid && form.controls.password.touched) {
+        <span class="text-sm text-red-500 mt-1 block">Password is required.</span>
+        }
+      </div>
+
+      <div>
+        <label for="street" class="block text-sm font-medium text-gray-700 mb-1">Street</label>
+        <input id="street" type="text" formControlName="street"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+        @if (form.controls.street.invalid && form.controls.street.touched) {
+        <span class="text-sm text-red-500 mt-1 block">Street is required.</span>
+        }
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+          <input id="city" type="text" formControlName="city"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+          @if (form.controls.city.invalid && form.controls.city.touched) {
+          <span class="text-sm text-red-500 mt-1 block">City is required.</span>
+          }
+        </div>
+
+        <div>
+          <label for="postalCode" class="block text-sm font-medium text-gray-700 mb-1">Postal code</label>
+          <input id="postalCode" type="text" formControlName="postalCode"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+          @if (form.controls.postalCode.invalid && form.controls.postalCode.touched) {
+          <span class="text-sm text-red-500 mt-1 block">Required.</span>
+          }
+        </div>
+      </div>
+
+      <div>
+        <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+        <input id="country" type="text" formControlName="country"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+        @if (form.controls.country.invalid && form.controls.country.touched) {
+        <span class="text-sm text-red-500 mt-1 block">Country is required.</span>
+        }
+      </div>
     </div>
 
     @if (errorMessage()) {
-      <div class="banner danger">{{ errorMessage() }}</div>
+    <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+      {{ errorMessage() }}
+    </div>
     }
 
-<div class="actions">
-      <button type="submit" class="btn-primary" [disabled]="submitting()">
+    <div class="flex flex-col gap-3 pt-4">
+      <button type="submit" [disabled]="submitting()"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors disabled:opacity-50">
         {{ submitting() ? 'Registering…' : 'Register customer' }}
       </button>
 
-      <button type="button" class="btn-secondary" routerLink="/login">
+      <button type="button" routerLink="/login"
+        class="w-full text-blue-600 bg-blue-50 hover:bg-blue-100 font-medium py-2.5 px-4 rounded-lg transition-colors">
         Already have an account? Log in
       </button>
     </div>
