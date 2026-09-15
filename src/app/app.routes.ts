@@ -55,6 +55,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'cart',
+    loadComponent: () =>
+      import('./features/carts/cart-view/cart-view').then(
+        (m) => m.CartView,
+      ),
+  },
+  {
     path: 'admin',
     canActivate: [adminGuard],
     loadComponent: () =>
