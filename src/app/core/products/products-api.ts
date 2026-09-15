@@ -10,7 +10,7 @@ export enum Currency {
 }
 
 export function getCurrencyCode(currency: number): string {
-    return Currency[currency];
+    return Currency[currency] ?? 'USD';
 }
 
 export interface ProductDto {
