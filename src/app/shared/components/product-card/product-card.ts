@@ -10,4 +10,5 @@ export class ProductCard {
   readonly name = input.required<string>();
   readonly amount = input.required<number>();
   readonly currency = input.required<string>();
+  readonly imageUrl = input.required<string>();
 }

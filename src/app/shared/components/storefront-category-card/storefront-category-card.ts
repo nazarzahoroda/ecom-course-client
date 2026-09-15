@@ -8,4 +8,5 @@ import { Component, input } from '@angular/core';
 })
 export class StorefrontCategoryCard {
   readonly name = input.required<string>();
+  readonly imageUrl = input.required<string>();
 }

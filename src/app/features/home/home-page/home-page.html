@@ -1,20 +1,67 @@
-<div class="home-page">
-    <section>
-        <h2>Categories</h2>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
 
-        <div class="categories-grid">
+    @if (loading()) {
+    <div class="flex justify-center items-center py-20 text-blue-600 font-medium text-lg">
+        Завантаження...
+    </div>
+    } @else if (errorMessage()) {
+    <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+        {{ errorMessage() }}
+    </div>
+    } @else {
+
+    <section>
+        <div class="flex justify-between items-end mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                Categories
+            </h2>
+
+            <a routerLink="/categories" class="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+                View all
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
             @for (category of categories(); track category.id) {
-            <app-storefront-category-card [name]="category.name" />
+            <app-storefront-category-card [name]="category.name"
+                imageUrl="https://placehold.co/400x300/f8fafc/94a3b8?text=Category" />
+            } @empty {
+            <div class="col-span-full text-center py-10 text-gray-500">
+                Категорій поки немає.
+            </div>
             }
-        </div>
-    </section>
-    <section>
-        <h2>Products</h2>
 
-        <div class="products-grid">
-            @for (product of products(); track product.id) {
-            <app-product-card [name]="product.name" [amount]="product.amount" [currency]="getCurrencyCode(product.currency)" />
-            }
         </div>
     </section>
+
+
+    <section>
+        <div class="flex justify-between items-end mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                Products
+            </h2>
+
+            <a routerLink="/products" class="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+                View all
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            @for (product of products(); track product.id) {
+            <app-product-card [name]="product.name" [amount]="product.amount"
+                [currency]="getCurrencyCode(product.currency)"
+                imageUrl="https://placehold.co/400x300/f8fafc/94a3b8?text=Product" />
+            } @empty {
+            <div class="col-span-full text-center py-10 text-gray-500">
+                Товарів поки немає.
+            </div>
+            }
+
+        </div>
+    </section>
+
+    }
+
 </div>
