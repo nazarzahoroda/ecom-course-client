@@ -1,31 +1,64 @@
-<div class="container">
-    <header class="catalog-header">
-        <h1>Каталог товарів</h1>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <header class="flex justify-between items-end mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">Products</h1>
+        <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">View all</a>
     </header>
 
     @if (loading()) {
-    <div class="loader">Завантаження товарів...</div>
+    <div class="flex justify-center items-center py-20 text-blue-600 font-medium text-lg">
+        Завантаження товарів...
+    </div>
     } @else if (errorMessage()) {
-    <div class="banner danger">{{ errorMessage() }}</div>
+    <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+        {{ errorMessage() }}
+    </div>
     } @else {
-    <div class="products-grid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         @for (product of products(); track product.id) {
-        <div class="product-card">
-            <div class="card-body">
-                <span class="sku">SKU: {{ product.sku }}</span>
-                <h3 class="title">{{ product.name }}</h3>
-                <div class="price-row">
-                    <span class="price">{{ product.amount | currency: getCurrencyCode(product.currency) }}</span>
-                </div>
+        <div
+            class="bg-white rounded-xl border border-gray-100 flex flex-col hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+
+            <div
+                class="bg-gray-50 aspect-video sm:aspect-square flex justify-center items-center p-6 cursor-pointer"
+                [routerLink]="['/products', product.id]">
+                <svg class="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                    </path>
+                </svg>
             </div>
-            <div class="card-actions">
-                <button class="btn-primary" (click)="addToCart(product)">
-                    У кошик
+
+            <div class="p-4 flex flex-col flex-grow">
+                <h3 class="mb-1">
+                    <a
+                        [routerLink]="['/products', product.id]"
+                        class="text-base font-semibold text-gray-900 hover:text-blue-600 line-clamp-2">
+                        {{ product.name }}
+                    </a>
+                </h3>
+
+                <div class="text-sm font-bold text-blue-600 mb-4">
+                    {{ product.amount | currency: getCurrencyCode(product.currency) }}
+                </div>
+
+                <div class="text-xs text-gray-400 mb-4 mt-auto">
+                    SKU: {{ product.sku }}
+                </div>
+
+                <button
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg transition-colors active:scale-[0.98]"
+                    (click)="addToCart(product)">
+                    Add to cart
                 </button>
             </div>
         </div>
         } @empty {
-        <p class="empty-state">Товарів поки немає.</p>
+        <div class="col-span-full text-center py-20 text-gray-500 text-lg">
+            Товарів поки немає.
+        </div>
         }
     </div>
     }

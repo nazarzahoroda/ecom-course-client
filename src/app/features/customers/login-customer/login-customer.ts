@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthApi, isProblemDetails } from '../../../core/auth/auth-api';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login-customer',
@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
 })
 export class LoginCustomer {private readonly fb = inject(FormBuilder);
   private readonly authApi = inject(AuthApi);
-
+    private readonly router = inject(Router);
   protected readonly submitting = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
 
@@ -35,6 +35,7 @@ export class LoginCustomer {private readonly fb = inject(FormBuilder);
         next: (x) => {
           this.submitting.set(false);
           this.form.reset();
+          this.router.navigate(['/products']);
         },
         error: (error: unknown) => {
           this.submitting.set(false);
@@ -42,6 +43,6 @@ export class LoginCustomer {private readonly fb = inject(FormBuilder);
             isProblemDetails(error) ? error.error.detail ?? 'Login failed.' : 'Could not reach the server.',
           );
         },
-      }); 
+      });
   }
 }

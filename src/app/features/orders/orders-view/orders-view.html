@@ -1,0 +1,85 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+    <header class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">My Orders</h1>
+    </header>
+
+    @if (loading()) {
+    <div class="flex justify-center py-12 text-blue-600 font-medium">Loading orders...</div>
+    } @else if (errorMessage()) {
+    <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">{{ errorMessage() }}</div>
+    } @else {
+    <div class="space-y-4">
+        @for (order of orders(); track order.id) {
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all">
+            <div class="flex justify-between items-center p-5 cursor-pointer hover:bg-gray-50 transition-colors"
+                role="button" tabindex="0" (click)="toggleExpanded(order.id)" (keydown.enter)="toggleExpanded(order.id)"
+                (keydown.space)="toggleExpanded(order.id)">
+                <div class="flex items-center gap-4">
+                    <span class="font-mono text-gray-600 font-medium">Order #{{ order.id.slice(0, 8) }}</span>
+                    <!-- Для кольорів статусів використовуємо базові стилі + твою стару логіку класів, або можна зробити через ngClass пізніше -->
+                    <span
+                        class="px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 uppercase tracking-wider"
+                        [class]="'status-' + order.status.toLowerCase()">
+                        {{ order.status }}
+                    </span>
+                </div>
+                <span class="font-bold text-gray-900 text-lg">{{ order.total | currency: 'USD' }}</span>
+            </div>
+
+            @if (expandedOrderId() === order.id) {
+            <div class="border-t border-gray-100 bg-gray-50 p-5">
+                <ul class="space-y-3 mb-6">
+                    @for (line of order.lines; track line.id) {
+                    <li class="flex justify-between items-center text-sm">
+                        <span class="text-gray-700 font-medium">{{ productName(line.productId) }}</span>
+                        <div class="flex items-center gap-6 text-gray-500">
+                            <span>× {{ line.quantity }}</span>
+                            <span class="font-medium text-gray-900 w-20 text-right">{{ line.lineTotal | currency: 'USD'
+                                }}</span>
+                        </div>
+                    </li>
+                    }
+                </ul>
+
+                @if (canPay(order.status) || canCancel(order.status)) {
+                <div class="flex gap-3 pt-4 border-t border-gray-200">
+                    @if (canPay(order.status)) {
+                    <button
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors disabled:opacity-50"
+                        [disabled]="pendingActionOrderId() === order.id" (click)="pay(order); $event.stopPropagation()">
+                        Pay
+                    </button>
+                    }
+                    @if (canCancel(order.status)) {
+                    <button
+                        class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2 px-6 rounded-lg transition-colors disabled:opacity-50"
+                        [disabled]="pendingActionOrderId() === order.id"
+                        (click)="cancel(order); $event.stopPropagation()">
+                        Cancel
+                    </button>
+                    }
+                </div>
+                }
+            </div>
+            }
+        </div>
+        } @empty {
+        <div class="text-center py-16 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
+            <p class="text-gray-500 font-medium">You have no orders yet.</p>
+        </div>
+        }
+    </div>
+
+    @if (totalPages() > 1) {
+    <div class="flex justify-between items-center mt-8 px-2">
+        <button
+            class="px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
+            [disabled]="page() <= 1" (click)="loadOrders(page() - 1)">Previous</button>
+        <span class="text-sm text-gray-600 font-medium">Page {{ page() }} of {{ totalPages() }}</span>
+        <button
+            class="px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
+            [disabled]="page() >= totalPages()" (click)="loadOrders(page() + 1)">Next</button>
+    </div>
+    }
+    }
+</div>
