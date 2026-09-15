@@ -1,6 +1,10 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { ProductsApi, ProductDto } from '../../../core/products/products-api';
+import {
+    ProductsApi,
+    ProductDto,
+    getCurrencyCode,
+} from '../../../core/products/products-api';
 import { RouterLink } from '@angular/router';
 import { CartApi } from '../../../core/carts/cart-api';
 
@@ -14,6 +18,7 @@ import { CartApi } from '../../../core/carts/cart-api';
 export class ProductsView implements OnInit {
     private readonly productsApi = inject(ProductsApi);
     private readonly cartApi = inject(CartApi);
+    protected readonly getCurrencyCode = getCurrencyCode;
 
     protected readonly products = signal<ProductDto[]>([]);
     protected readonly loading = signal(true);

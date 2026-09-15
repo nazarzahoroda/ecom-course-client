@@ -1,0 +1,13 @@
+<div class="flex items-center justify-between rounded-lg border border-gray-200 px-3.5 py-3">
+  <span>{{ category().name }}</span>
+
+  <div class="flex gap-2">
+    <app-button (click)="edit.emit(category())">
+      Edit
+    </app-button>
+
+    <app-button variant="danger" (click)="delete.emit(category())">
+      Delete
+    </app-button>
+  </div>
+</div>

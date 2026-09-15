@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { StorefrontLayout } from './layouts/storefront/storefront-layout/storefront-layout';
 
 import { authGuard } from './core/auth/auth-guard';
+import { adminGuard } from './core/auth/admin-guard';
 
 export const routes: Routes = [
   {
@@ -59,5 +60,11 @@ export const routes: Routes = [
       import('./features/carts/cart-view/cart-view').then(
         (m) => m.CartView,
       ),
+  },
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadComponent: () =>
+      import('./features/admin/admin-view').then((m) => m.AdminView),
   },
 ];

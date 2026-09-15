@@ -1,5 +1,4 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Заголовок у стилі референсу -->
     <header class="flex justify-between items-end mb-6">
         <h1 class="text-2xl font-bold text-gray-900">Products</h1>
         <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">View all</a>
@@ -19,10 +18,14 @@
         <div
             class="bg-white rounded-xl border border-gray-100 flex flex-col hover:shadow-lg transition-shadow duration-300 overflow-hidden">
 
-            <div class="bg-gray-50 aspect-video sm:aspect-square flex justify-center items-center p-6 cursor-pointer"
+            <div
+                class="bg-gray-50 aspect-video sm:aspect-square flex justify-center items-center p-6 cursor-pointer"
                 [routerLink]="['/products', product.id]">
                 <svg class="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
                     </path>
                 </svg>
@@ -30,14 +33,15 @@
 
             <div class="p-4 flex flex-col flex-grow">
                 <h3 class="mb-1">
-                    <a [routerLink]="['/products', product.id]"
+                    <a
+                        [routerLink]="['/products', product.id]"
                         class="text-base font-semibold text-gray-900 hover:text-blue-600 line-clamp-2">
                         {{ product.name }}
                     </a>
                 </h3>
 
                 <div class="text-sm font-bold text-blue-600 mb-4">
-                    {{ product.amount | currency: product.currency }}
+                    {{ product.amount | currency: getCurrencyCode(product.currency) }}
                 </div>
 
                 <div class="text-xs text-gray-400 mb-4 mt-auto">
