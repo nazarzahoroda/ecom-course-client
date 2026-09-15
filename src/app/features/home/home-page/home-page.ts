@@ -63,5 +63,16 @@ export class HomePage implements OnInit {
       },
     });
   }
+  protected getCurrencyCode(currency: number): string {
+    switch (currency) {
+      case 0:
+        return 'USD';
+      case 1:
+        return 'EUR';
+      case 2:
+        return 'UAH';
+      default:
+        return 'USD';
+    }
+  }
 }
-

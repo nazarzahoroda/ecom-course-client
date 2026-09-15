@@ -1,0 +1,36 @@
+button {
+  padding: 8px 12px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+
+  &:hover {
+    background: #f9fafb;
+  }
+}
+
+.btn-primary {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+
+  &:hover {
+    background: #1d4ed8;
+  }
+}
+
+.btn-danger {
+  color: #b42318;
+  border-color: #fecdca;
+
+  &:hover {
+    background: #fef3f2;
+  }
+}
+
+.full-width {
+  width: 100%;
+}

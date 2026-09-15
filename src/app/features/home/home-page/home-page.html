@@ -50,7 +50,8 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
             @for (product of products(); track product.id) {
-            <app-product-card [name]="product.name" [amount]="product.amount" [currency]="product.currency"
+            <app-product-card [name]="product.name" [amount]="product.amount"
+                [currency]="getCurrencyCode(product.currency)"
                 imageUrl="https://placehold.co/400x300/f8fafc/94a3b8?text=Product" />
             } @empty {
             <div class="col-span-full text-center py-10 text-gray-500">

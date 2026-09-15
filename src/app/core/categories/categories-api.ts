@@ -20,4 +20,3 @@ export class CategoriesApi {
         return this.http.get<CategoryDto>(`${environment.apiUrl}/Categories/${id}`);
     }
 }
-

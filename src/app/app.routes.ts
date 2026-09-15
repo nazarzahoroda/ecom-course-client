@@ -40,14 +40,22 @@ export const routes: Routes = [
   },
   {
     path: 'products/:id',
-    loadComponent: () => import('./features/products/product-details/product-details').then(m => m.ProductDetailsComponent),
+    loadComponent: () =>
+      import('./features/products/product-details/product-details').then(
+        (m) => m.ProductDetailsComponent,
+      ),
   },
   {
     path: 'orders',
     canActivate: [authGuard],
     loadComponent: () =>
       import('./features/orders/orders-view/orders-view').then(
-        (m) => m.OrdersView
+        (m) => m.OrdersView,
       ),
+  },
+  {
+    path: 'admin',
+    loadComponent: () =>
+      import('./features/admin/admin-view').then((m) => m.AdminView),
   },
 ];

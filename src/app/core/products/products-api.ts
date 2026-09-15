@@ -7,7 +7,7 @@ export interface ProductDto {
     id: string;
     name: string;
     amount: number;
-    currency: string;
+    currency: number;
     sku: string;
     categoryId: string;
 }
