@@ -9,15 +9,23 @@ export enum Currency {
     UAH,
 }
 
-export function getCurrencyCode(currency: Currency): string {
-    return Currency[currency];
+export function getCurrencyCode(currency: number): string {
+    return Currency[currency] ?? 'USD';
 }
 
 export interface ProductDto {
     id: string;
     name: string;
     amount: number;
-    currency: Currency;
+    currency: number;
+    sku: string;
+    categoryId: string;
+}
+
+export interface ProductRequest {
+    name: string;
+    amount: number;
+    currency: number;
     sku: string;
     categoryId: string;
 }
@@ -36,5 +44,28 @@ export class ProductsApi {
 
     getProductById(id: string): Observable<ProductDto> {
         return this.http.get<ProductDto>(`${environment.apiUrl}/Products/${id}`);
+    }
+
+    createProduct(request: ProductRequest): Observable<string> {
+        return this.http.post<string>(
+            `${environment.apiUrl}/Products`,
+            request,
+            { withCredentials: true },
+        );
+    }
+
+    updateProduct(id: string, request: ProductRequest): Observable<void> {
+        return this.http.put<void>(
+            `${environment.apiUrl}/Products/${id}`,
+            request,
+            { withCredentials: true },
+        );
+    }
+
+    deleteProduct(id: string): Observable<void> {
+        return this.http.delete<void>(
+            `${environment.apiUrl}/Products/${id}`,
+            { withCredentials: true },
+        );
     }
 }

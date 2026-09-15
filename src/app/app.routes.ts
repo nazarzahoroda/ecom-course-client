@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { StorefrontLayout } from './layouts/storefront/storefront-layout/storefront-layout';
 
 import { authGuard } from './core/auth/auth-guard';
+import { adminGuard } from './core/auth/admin-guard';
 
 export const routes: Routes = [
   {
@@ -40,14 +41,23 @@ export const routes: Routes = [
   },
   {
     path: 'products/:id',
-    loadComponent: () => import('./features/products/product-details/product-details').then(m => m.ProductDetailsComponent),
+    loadComponent: () =>
+      import('./features/products/product-details/product-details').then(
+        (m) => m.ProductDetailsComponent,
+      ),
   },
   {
     path: 'orders',
     canActivate: [authGuard],
     loadComponent: () =>
       import('./features/orders/orders-view/orders-view').then(
-        (m) => m.OrdersView
+        (m) => m.OrdersView,
       ),
+  },
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadComponent: () =>
+      import('./features/admin/admin-view').then((m) => m.AdminView),
   },
 ];

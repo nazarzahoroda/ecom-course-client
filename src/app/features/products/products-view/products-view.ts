@@ -1,6 +1,10 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { getCurrencyCode, ProductsApi, ProductDto } from '../../../core/products/products-api';
+import {
+    ProductsApi,
+    ProductDto,
+    getCurrencyCode,
+} from '../../../core/products/products-api';
 import { RouterLink } from '@angular/router';
 
 @Component({
