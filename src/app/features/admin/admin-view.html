@@ -58,8 +58,18 @@
             </div>
 
             @for (product of products(); track product.id) {
-            <app-admin-product-row [product]="product" [currencyName]="getCurrencyName(product.currency)"
-                [categoryName]="getCategoryName(product.categoryId)" />
+            <div class="product-row">
+                <span>{{ product.name }}</span>
+                <span>{{ product.amount }}</span>
+                <span>{{ getCurrencyName(product.currency) }}</span>
+                <span>{{ product.sku }}</span>
+                <span>{{ getCategoryName(product.categoryId) }}</span>
+
+                <div class="actions">
+                    <app-button>Edit</app-button>
+                    <app-button variant="danger">Delete</app-button>
+                </div>
+            </div>
             }
         </div>
     </section>
