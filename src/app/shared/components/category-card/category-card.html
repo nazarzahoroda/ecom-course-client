@@ -1,8 +1,12 @@
 <div class="category-row">
-  <span>{{ category().name }}</span>
+    <span>{{ category().name }}</span>
 
-  <div class="actions">
-    <app-button>Edit</app-button>
-    <app-button variant="danger">Delete</app-button>
-  </div>
+    <div class="actions">
+        <app-button (click)="edit.emit(category())">
+            Edit
+        </app-button>
+        <app-button variant="danger" (click)="delete.emit(category())">
+            Delete
+        </app-button>
+    </div>
 </div>

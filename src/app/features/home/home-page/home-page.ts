@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import {
   ProductsApi,
   ProductDto,
+  getCurrencyCode,
 } from '../../../core/products/products-api';
 
 import {
@@ -27,6 +28,8 @@ import { ProductCard } from '../../../shared/components/product-card/product-car
 export class HomePage implements OnInit {
   private readonly productsApi = inject(ProductsApi);
   private readonly categoriesApi = inject(CategoriesApi);
+
+  protected readonly getCurrencyCode = getCurrencyCode;
 
   protected readonly categories = signal<CategoryDto[]>([]);
   protected readonly products = signal<ProductDto[]>([]);
@@ -62,17 +65,5 @@ export class HomePage implements OnInit {
         this.loading.set(false);
       },
     });
-  }
-  protected getCurrencyCode(currency: number): string {
-    switch (currency) {
-      case 0:
-        return 'USD';
-      case 1:
-        return 'EUR';
-      case 2:
-        return 'UAH';
-      default:
-        return 'USD';
-    }
   }
 }

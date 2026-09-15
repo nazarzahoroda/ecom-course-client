@@ -1,6 +1,10 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { ProductsApi, ProductDto } from '../../../core/products/products-api';
+import {
+    ProductsApi,
+    ProductDto,
+    getCurrencyCode,
+} from '../../../core/products/products-api';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -16,6 +20,7 @@ export class ProductsView implements OnInit {
     protected readonly products = signal<ProductDto[]>([]);
     protected readonly loading = signal(true);
     protected readonly errorMessage = signal<string | null>(null);
+    protected getCurrencyCode = getCurrencyCode;
 
     ngOnInit(): void {
         this.loadProducts();
@@ -33,19 +38,6 @@ export class ProductsView implements OnInit {
                 this.loading.set(false);
             },
         });
-    }
-
-    protected getCurrencyCode(currency: number): string {
-        switch (currency) {
-            case 0:
-                return 'USD';
-            case 1:
-                return 'EUR';
-            case 2:
-                return 'UAH';
-            default:
-                return 'USD';
-        }
     }
 
     protected addToCart(product: ProductDto): void {
