@@ -21,6 +21,12 @@ export class CategoriesApi {
     return this.http.get<CategoryDto[]>(`${environment.apiUrl}/Categories`);
   }
 
+  getTopCategories(): Observable<CategoryDto[]> {
+    return this.http.get<CategoryDto[]>(
+      `${environment.apiUrl}/categories/top`,
+    );
+  }
+
   getCategoryById(id: string): Observable<CategoryDto> {
     return this.http.get<CategoryDto>(
       `${environment.apiUrl}/Categories/${id}`,

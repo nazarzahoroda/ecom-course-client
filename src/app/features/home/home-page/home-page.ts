@@ -2,8 +2,8 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import {
-  ProductsApi,
   ProductDto,
+  ProductsApi,
   getCurrencyCode,
 } from '../../../core/products/products-api';
 
@@ -45,9 +45,9 @@ export class HomePage implements OnInit {
     this.loading.set(true);
     this.errorMessage.set(null);
 
-    this.categoriesApi.getCategories().subscribe({
+    this.categoriesApi.getTopCategories().subscribe({
       next: (categories) => {
-        this.categories.set(categories.slice(0, 4));
+        this.categories.set(categories);
       },
       error: () => {
         this.errorMessage.set('Не вдалося завантажити категорії');
@@ -55,9 +55,9 @@ export class HomePage implements OnInit {
       },
     });
 
-    this.productsApi.getProducts().subscribe({
+    this.productsApi.getTopProducts().subscribe({
       next: (products) => {
-        this.products.set(products.slice(0, 4));
+        this.products.set(products);
         this.loading.set(false);
       },
       error: () => {

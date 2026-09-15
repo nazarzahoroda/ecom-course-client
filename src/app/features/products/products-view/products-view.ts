@@ -16,11 +16,11 @@ import { RouterLink } from '@angular/router';
 })
 export class ProductsView implements OnInit {
     private readonly productsApi = inject(ProductsApi);
+    protected readonly getCurrencyCode = getCurrencyCode;
 
     protected readonly products = signal<ProductDto[]>([]);
     protected readonly loading = signal(true);
     protected readonly errorMessage = signal<string | null>(null);
-    protected getCurrencyCode = getCurrencyCode;
 
     ngOnInit(): void {
         this.loadProducts();

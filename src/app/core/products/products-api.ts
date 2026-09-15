@@ -38,6 +38,10 @@ export class ProductsApi {
         return this.http.get<ProductDto[]>(`${environment.apiUrl}/Products`);
     }
 
+    getTopProducts(): Observable<ProductDto[]> {
+        return this.http.get<ProductDto[]>(`${environment.apiUrl}/Products/top`);
+    }
+
     getProductById(id: string): Observable<ProductDto> {
         return this.http.get<ProductDto>(`${environment.apiUrl}/Products/${id}`);
     }
