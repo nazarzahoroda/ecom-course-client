@@ -66,7 +66,7 @@
 
             <div class="flex gap-2">
                 <app-button type="submit" variant="primary" [fullWidth]="true" class="flex-1">
-                    Add product
+                    {{ editingProductId() ? 'Update product' : 'Add product' }}
                 </app-button>
 
                 @if (editingProductId()) {
