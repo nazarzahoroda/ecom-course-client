@@ -17,8 +17,24 @@
     </form>
 
     <div class="flex flex-col gap-2">
-        @for (category of categories(); track category.id) {
+        @for (category of paginatedCategories(); track category.id) {
         <app-category-card [category]="category" (edit)="startEditCategory($event)" (delete)="deleteCategory($event)" />
         }
     </div>
+
+    @if (totalPages() > 1) {
+    <div class="mt-6 flex items-center justify-between">
+        <app-button type="button" variant="primary" [disabled]="currentPage() === 1" (click)="previousPage()">
+            Previous
+        </app-button>
+
+        <span class="text-sm text-gray-600">
+            Page {{ currentPage() }} of {{ totalPages() }}
+        </span>
+
+        <app-button type="button" variant="primary" [disabled]="currentPage() === totalPages()" (click)="nextPage()">
+            Next
+        </app-button>
+    </div>
+    }
 </section>

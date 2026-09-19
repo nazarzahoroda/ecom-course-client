@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import {
@@ -20,6 +20,19 @@ export class AdminCategories {
   private readonly formBuilder = inject(FormBuilder);
 
   protected readonly categories = signal<CategoryDto[]>([]);
+  protected readonly currentPage = signal(1);
+  protected readonly pageSize = 5;
+
+  protected readonly totalPages = computed(() =>
+    Math.ceil(this.categories().length / this.pageSize)
+  );
+
+  protected readonly paginatedCategories = computed(() => {
+    const startIndex = (this.currentPage() - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+
+    return this.categories().slice(startIndex, endIndex);
+  });
   protected readonly editingCategoryId = signal<string | null>(null);
 
   protected readonly categoryForm = this.formBuilder.nonNullable.group({
@@ -34,8 +47,26 @@ export class AdminCategories {
     this.categoriesApi.getCategories().subscribe({
       next: (categories) => {
         this.categories.set(categories);
+
+        const lastPage = Math.max(1, this.totalPages());
+
+        if (this.currentPage() > lastPage) {
+          this.currentPage.set(lastPage);
+        }
       },
     });
+  }
+
+  protected previousPage(): void {
+    if (this.currentPage() > 1) {
+      this.currentPage.update((page) => page - 1);
+    }
+  }
+
+  protected nextPage(): void {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.update((page) => page + 1);
+    }
   }
 
   protected startEditCategory(category: CategoryDto): void {
