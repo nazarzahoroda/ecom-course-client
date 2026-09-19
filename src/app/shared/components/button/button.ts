@@ -9,6 +9,7 @@ export class Button {
   readonly type = input<'button' | 'submit'>('button');
   readonly variant = input<'primary' | 'secondary' | 'danger'>('secondary');
   readonly fullWidth = input(false);
+  readonly disabled = input(false);
 
   readonly classes = computed(() => {
     const width = this.fullWidth() ? ' w-full' : '';

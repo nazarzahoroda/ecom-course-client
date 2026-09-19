@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import {
@@ -25,6 +25,20 @@ export class AdminProducts {
 
   protected readonly categories = signal<CategoryDto[]>([]);
   protected readonly products = signal<ProductDto[]>([]);
+
+  protected readonly currentPage = signal(1);
+  protected readonly pageSize = 5;
+
+  protected readonly totalPages = computed(() =>
+    Math.ceil(this.products().length / this.pageSize)
+  );
+
+  protected readonly paginatedProducts = computed(() => {
+    const startIndex = (this.currentPage() - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+
+    return this.products().slice(startIndex, endIndex);
+  });
 
   protected readonly editingProductId = signal<string | null>(null);
 
@@ -53,8 +67,26 @@ export class AdminProducts {
     this.productsApi.getProducts().subscribe({
       next: (products) => {
         this.products.set(products);
+
+        const lastPage = Math.max(1, this.totalPages());
+
+        if (this.currentPage() > lastPage) {
+          this.currentPage.set(lastPage);
+        }
       },
     });
+  }
+
+  protected previousPage(): void {
+    if (this.currentPage() > 1) {
+      this.currentPage.update((page) => page - 1);
+    }
+  }
+
+  protected nextPage(): void {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.update((page) => page + 1);
+    }
   }
 
   protected getCategoryName(categoryId: string): string {
