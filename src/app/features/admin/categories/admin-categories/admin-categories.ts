@@ -23,6 +23,9 @@ export class AdminCategories {
   protected readonly currentPage = signal(1);
   protected readonly pageSize = 5;
 
+  protected readonly isCategoryModalOpen = signal(false);
+  protected readonly editingCategoryId = signal<string | null>(null);
+
   protected readonly totalPages = computed(() =>
     Math.ceil(this.categories().length / this.pageSize)
   );
@@ -33,7 +36,6 @@ export class AdminCategories {
 
     return this.categories().slice(startIndex, endIndex);
   });
-  protected readonly editingCategoryId = signal<string | null>(null);
 
   protected readonly categoryForm = this.formBuilder.nonNullable.group({
     name: ['', [Validators.required, Validators.maxLength(100)]],
@@ -69,17 +71,26 @@ export class AdminCategories {
     }
   }
 
+  protected openCreateCategoryModal(): void {
+    this.editingCategoryId.set(null);
+    this.categoryForm.reset();
+    this.isCategoryModalOpen.set(true);
+  }
+
   protected startEditCategory(category: CategoryDto): void {
     this.editingCategoryId.set(category.id);
 
     this.categoryForm.setValue({
       name: category.name,
     });
+
+    this.isCategoryModalOpen.set(true);
   }
 
   protected cancelEditCategory(): void {
     this.editingCategoryId.set(null);
     this.categoryForm.reset();
+    this.isCategoryModalOpen.set(false);
   }
 
   protected createCategory(): void {
@@ -95,8 +106,7 @@ export class AdminCategories {
         .updateCategory(editingCategoryId, request)
         .subscribe({
           next: () => {
-            this.editingCategoryId.set(null);
-            this.categoryForm.reset();
+            this.cancelEditCategory();
             this.loadCategories();
           },
         });
@@ -106,7 +116,7 @@ export class AdminCategories {
 
     this.categoriesApi.createCategory(request).subscribe({
       next: () => {
-        this.categoryForm.reset();
+        this.cancelEditCategory();
         this.loadCategories();
       },
     });

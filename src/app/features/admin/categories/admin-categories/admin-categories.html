@@ -1,20 +1,46 @@
 <section class="mx-auto mb-8 max-w-[600px] rounded-xl bg-white p-6">
-    <h2 class="mt-0 text-xl font-semibold">Categories</h2>
+    <div class="mb-6 flex items-center justify-between">
+        <h2 class="m-0 text-xl font-semibold">
+            Categories
+        </h2>
 
-    <form class="mb-6 flex gap-3" [formGroup]="categoryForm" (ngSubmit)="createCategory()">
-        <input class="flex-1 rounded-lg border border-gray-300 px-3 py-2.5 text-sm" type="text"
-            placeholder="Category name" formControlName="name" />
-
-        <app-button type="submit" variant="primary">
-            {{ editingCategoryId() ? 'Update category' : 'Add category' }}
+        <app-button type="button" variant="primary" (click)="openCreateCategoryModal()">
+            Add category
         </app-button>
+    </div>
 
-        @if (editingCategoryId()) {
-        <app-button type="button" (click)="cancelEditCategory()">
-            Cancel
-        </app-button>
-        }
-    </form>
+    @if (isCategoryModalOpen()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+        <div class="w-full max-w-[500px] rounded-xl bg-white p-6 shadow-xl">
+            <div class="mb-6 flex items-center justify-between">
+                <h3 class="m-0 text-xl font-semibold">
+                    {{ editingCategoryId() ? 'Edit category' : 'Add category' }}
+                </h3>
+
+                <button type="button" class="text-2xl leading-none text-gray-400 hover:text-gray-700" aria-label="Close"
+                    (click)="cancelEditCategory()">
+                    &times;
+                </button>
+            </div>
+
+            <form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+
+                <input class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text"
+                    placeholder="Category name" formControlName="name" />
+
+                <div class="mt-6 flex justify-end gap-2">
+                    <app-button type="button" (click)="cancelEditCategory()">
+                        Cancel
+                    </app-button>
+
+                    <app-button type="submit" variant="primary">
+                        {{ editingCategoryId() ? 'Update category' : 'Add category' }}
+                    </app-button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
 
     <div class="flex flex-col gap-2">
         @for (category of paginatedCategories(); track category.id) {
