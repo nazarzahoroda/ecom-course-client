@@ -1,51 +1,73 @@
 <section class="mx-auto mb-8 max-w-[1200px] rounded-xl bg-white p-6">
-    <h2 class="mt-0 text-xl font-semibold">Products</h2>
+    <div class="mb-6 flex items-center justify-between">
+        <h2 class="m-0 text-xl font-semibold">Products</h2>
 
-    <form class="mb-6 grid grid-cols-2 gap-3" [formGroup]="productForm" (ngSubmit)="createProduct()">
-        <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text"
-            placeholder="Product name" formControlName="name" />
+        <app-button type="button" variant="primary" (click)="openCreateProductModal()">
+            Add product
+        </app-button>
+    </div>
 
-        <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="number" placeholder="Amount"
-            formControlName="amount" />
+    @if (isProductModalOpen()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+        <div class="w-full max-w-[700px] rounded-xl bg-white p-6 shadow-xl">
+            <div class="mb-6 flex items-center justify-between">
+                <h3 class="m-0 text-xl font-semibold">
+                    {{ editingProductId() ? 'Edit product' : 'Add product' }}
+                </h3>
 
-        <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" formControlName="currency"
-            [class.text-gray-400]="productForm.controls.currency.value === null">
-            <option [ngValue]="null" disabled>
-                Select currency
-            </option>
-            <option [ngValue]="0">USD</option>
-            <option [ngValue]="1">EUR</option>
-            <option [ngValue]="2">UAH</option>
-        </select>
+                <button type="button" class="text-2xl leading-none text-gray-400 hover:text-gray-700" aria-label="Close"
+                    (click)="cancelEditProduct()">
+                    &times;
+                </button>
+            </div>
 
-        <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text" placeholder="SKU"
-            formControlName="sku" />
+            <form class="grid grid-cols-2 gap-3" [formGroup]="productForm" (ngSubmit)="createProduct()">
 
-        <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" formControlName="categoryId"
-            [class.text-gray-400]="productForm.controls.categoryId.value === null">
-            <option [ngValue]="null" disabled>
-                Select category
-            </option>
+                <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text"
+                    placeholder="Product name" formControlName="name" />
 
-            @for (category of categories(); track category.id) {
-            <option [value]="category.id">
-                {{ category.name }}
-            </option>
-            }
-        </select>
+                <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="number"
+                    placeholder="Amount" formControlName="amount" />
 
-        <div class="flex gap-2">
-            <app-button type="submit" variant="primary" [fullWidth]="true" class="flex-1">
-                {{ editingProductId() ? 'Update product' : 'Add product' }}
-            </app-button>
+                <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm"
+                    formControlName="currency" [class.text-gray-400]="productForm.controls.currency.value === null">
+                    <option [ngValue]="null" disabled>
+                        Select currency
+                    </option>
+                    <option [ngValue]="0">USD</option>
+                    <option [ngValue]="1">EUR</option>
+                    <option [ngValue]="2">UAH</option>
+                </select>
 
-            @if (editingProductId()) {
-            <app-button type="button" variant="primary" [fullWidth]="true" class="flex-1" (click)="cancelEditProduct()">
-                Cancel
-            </app-button>
-            }
+                <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text"
+                    placeholder="SKU" formControlName="sku" />
+
+                <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm"
+                    formControlName="categoryId" [class.text-gray-400]="productForm.controls.categoryId.value === null">
+                    <option [ngValue]="null" disabled>
+                        Select category
+                    </option>
+
+                    @for (category of categories(); track category.id) {
+                    <option [value]="category.id">
+                        {{ category.name }}
+                    </option>
+                    }
+                </select>
+
+                <div class="col-span-2 mt-3 flex justify-end gap-2">
+                    <app-button type="button" (click)="cancelEditProduct()">
+                        Cancel
+                    </app-button>
+
+                    <app-button type="submit" variant="primary">
+                        {{ editingProductId() ? 'Update product' : 'Add product' }}
+                    </app-button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
+    }
 
     <div class="overflow-x-auto">
         <div

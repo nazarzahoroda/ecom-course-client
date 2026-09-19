@@ -41,6 +41,7 @@ export class AdminProducts {
   });
 
   protected readonly editingProductId = signal<string | null>(null);
+  protected readonly isProductModalOpen = signal(false);
 
   protected readonly productForm = this.formBuilder.group({
     name: ['', [Validators.required, Validators.maxLength(100)]],
@@ -109,6 +110,12 @@ export class AdminProducts {
     }
   }
 
+  protected openCreateProductModal(): void {
+    this.editingProductId.set(null);
+    this.productForm.reset();
+    this.isProductModalOpen.set(true);
+  }
+
   protected startEditProduct(product: ProductDto): void {
     this.editingProductId.set(product.id);
 
@@ -119,6 +126,8 @@ export class AdminProducts {
       sku: product.sku,
       categoryId: product.categoryId,
     });
+
+    this.isProductModalOpen.set(true);
   }
 
   protected createProduct(): void {
@@ -141,6 +150,7 @@ export class AdminProducts {
         .updateProduct(editingProductId, request)
         .subscribe({
           next: () => {
+            this.isProductModalOpen.set(false);
             this.editingProductId.set(null);
             this.productForm.reset();
             this.loadProducts();
@@ -152,6 +162,7 @@ export class AdminProducts {
 
     this.productsApi.createProduct(request).subscribe({
       next: () => {
+        this.isProductModalOpen.set(false);
         this.productForm.reset();
         this.loadProducts();
       },
@@ -159,6 +170,7 @@ export class AdminProducts {
   }
 
   protected cancelEditProduct(): void {
+    this.isProductModalOpen.set(false);
     this.editingProductId.set(null);
     this.productForm.reset();
   }
