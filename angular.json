@@ -72,7 +72,8 @@
               "buildTarget": "ecom-client:build:production"
             },
             "development": {
-              "buildTarget": "ecom-client:build:development"
+              "buildTarget": "ecom-client:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
