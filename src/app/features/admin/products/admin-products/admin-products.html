@@ -61,7 +61,9 @@
         @for (product of paginatedProducts(); track product.id) {
         <div
             class="grid grid-cols-[1.4fr_0.9fr_0.9fr_1fr_1.8fr_0.8fr] items-center gap-3 border-b border-gray-200 px-3.5 py-3">
-            <span class="min-w-0">{{ product.name }}</span>
+            <span class="min-w-0 truncate" [title]="product.name">
+                {{ product.name }}
+            </span>
             <span class="min-w-0">{{ product.amount }}</span>
             <span class="min-w-0">
                 {{ getCurrencyName(product.currency) }}
@@ -84,7 +86,7 @@
         }
         @if (totalPages() > 1) {
         <div class="mt-6 flex items-center justify-between">
-            <app-button type="button" [disabled]="currentPage() === 1" (click)="previousPage()">
+            <app-button type="button" variant="primary" [disabled]="currentPage() === 1" (click)="previousPage()">
                 Previous
             </app-button>
 
@@ -92,7 +94,8 @@
                 Page {{ currentPage() }} of {{ totalPages() }}
             </span>
 
-            <app-button type="button" [disabled]="currentPage() === totalPages()" (click)="nextPage()">
+            <app-button type="button" variant="primary" [disabled]="currentPage() === totalPages()"
+                (click)="nextPage()">
                 Next
             </app-button>
         </div>
