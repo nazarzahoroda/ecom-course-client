@@ -47,6 +47,13 @@ export class AuthApi {
       { withCredentials: true }
     );
   }
+  refreshToken(): Observable<void> {
+    return this.http.post<void>(
+      `${environment.apiUrl}/Auth/refresh`,
+      {},
+      { withCredentials: true }
+    );
+  }
 }
 
 export function isProblemDetails(error: unknown): error is HttpErrorResponse & {

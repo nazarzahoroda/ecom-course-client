@@ -57,7 +57,7 @@
               {{ item.name }}
             </h3>
             <p class="text-sm font-bold text-blue-600">
-              ${{ item.unitPrice | number:'1.2-2' }}
+              {{ item.unitPrice | number:'1.2-2' }} {{ item.currency }}
             </p>
             <p class="text-xs text-slate-400 uppercase tracking-wider font-medium">
               SKU: {{ item.sku }}
