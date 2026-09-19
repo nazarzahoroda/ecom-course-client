@@ -31,12 +31,12 @@
 
                 <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm"
                     formControlName="currency" [class.text-gray-400]="productForm.controls.currency.value === null">
-                    <option [ngValue]="null" disabled>
+                    <option [ngValue]="null" disabled class="text-gray-400">
                         Select currency
                     </option>
-                    <option [ngValue]="0">USD</option>
-                    <option [ngValue]="1">EUR</option>
-                    <option [ngValue]="2">UAH</option>
+                    <option [ngValue]="0" class="text-black">USD</option>
+                    <option [ngValue]="1" class="text-black">EUR</option>
+                    <option [ngValue]="2" class="text-black">UAH</option>
                 </select>
 
                 <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text"
@@ -44,12 +44,12 @@
 
                 <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm"
                     formControlName="categoryId" [class.text-gray-400]="productForm.controls.categoryId.value === null">
-                    <option [ngValue]="null" disabled>
+                    <option [ngValue]="null" disabled class="text-gray-400">
                         Select category
                     </option>
 
                     @for (category of categories(); track category.id) {
-                    <option [value]="category.id">
+                    <option [value]="category.id" class="text-black">
                         {{ category.name }}
                     </option>
                     }
@@ -96,7 +96,7 @@
             </span>
 
             <div class="flex gap-2">
-                <app-button (click)="startEditProduct(product)">
+                <app-button variant="primary" (click)="startEditProduct(product)">
                     Edit
                 </app-button>
 
