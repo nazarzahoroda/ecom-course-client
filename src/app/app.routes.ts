@@ -78,7 +78,6 @@ export const routes: Routes = [
           import(
             './features/admin/products/admin-products/admin-products'
           ).then((m) => m.AdminProducts),
-
       },
       {
         path: 'categories',
