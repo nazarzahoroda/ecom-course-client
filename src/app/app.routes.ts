@@ -66,5 +66,26 @@ export const routes: Routes = [
     canActivate: [adminGuard],
     loadComponent: () =>
       import('./features/admin/admin-view').then((m) => m.AdminView),
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'products',
+      },
+      {
+        path: 'products',
+        loadComponent: () =>
+          import(
+            './features/admin/products/admin-products/admin-products'
+          ).then((m) => m.AdminProducts),
+      },
+      {
+        path: 'categories',
+        loadComponent: () =>
+          import(
+            './features/admin/categories/admin-categories/admin-categories'
+          ).then((m) => m.AdminCategories),
+      },
+    ],
   },
 ];

@@ -9,9 +9,14 @@ export class Button {
   readonly type = input<'button' | 'submit'>('button');
   readonly variant = input<'primary' | 'secondary' | 'danger'>('secondary');
   readonly fullWidth = input(false);
+  readonly disabled = input(false);
 
   readonly classes = computed(() => {
     const width = this.fullWidth() ? ' w-full' : '';
+
+    if (this.disabled()) {
+      return 'cursor-not-allowed rounded-lg border-0 bg-gray-300 px-4 py-2.5 text-gray-500' + width;
+    }
 
     switch (this.variant()) {
       case 'primary':
