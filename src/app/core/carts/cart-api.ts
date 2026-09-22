@@ -14,6 +14,7 @@ export interface CartItemDetailsDto {
     name: string;
     sku: string;
     unitPrice: number;
+    currency: string;
     quantity: number;
     imageUrl?: string | null;
 }
