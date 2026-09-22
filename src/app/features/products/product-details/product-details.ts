@@ -1,7 +1,8 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ProductsApi } from '../../../core/products/products-api';
+import { ProductDto, ProductsApi } from '../../../core/products/products-api';
+import { CartApi } from '../../../core/carts/cart-api';
 
 @Component({
     selector: 'app-product-details',
@@ -12,6 +13,7 @@ import { ProductsApi } from '../../../core/products/products-api';
 })
 export class ProductDetailsComponent implements OnInit {
     private route = inject(ActivatedRoute);
+    private readonly cartApi = inject(CartApi);
     private productsApi = inject(ProductsApi);
 
     product = signal<any | null>(null);
@@ -38,8 +40,12 @@ export class ProductDetailsComponent implements OnInit {
             this.isLoading.set(false);
         }
     }
+    protected addToCart(product: ProductDto): void {
+        this.cartApi.addItemToCart({ productId: product.id, quantity: 1 }).subscribe({
+            next: () => {
+                console.log(`Товар ${product.name} додано до кошика`);
+            },
 
-    addToCart(productItem: any): void {
-        console.log('Додано в кошик:', productItem);
+        });
     }
 }

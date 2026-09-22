@@ -45,29 +45,29 @@ export const routes: Routes = [
             (m) => m.CustomerView,
           ),
       },
-    ],
-  },
-  {
-    path: 'products/:id',
-    loadComponent: () =>
-      import('./features/products/product-details/product-details').then(
-        (m) => m.ProductDetailsComponent,
-      ),
-  },
-  {
-    path: 'orders',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./features/orders/orders-view/orders-view').then(
-        (m) => m.OrdersView,
-      ),
-  },
-  {
-    path: 'cart',
-    loadComponent: () =>
-      import('./features/carts/cart-view/cart-view').then(
-        (m) => m.CartView,
-      ),
+      {
+        path: 'cart',
+        loadComponent: () =>
+          import('./features/carts/cart-view/cart-view').then(
+            (m) => m.CartView,
+          ),
+      },
+      {
+        path: 'products/:id',
+        loadComponent: () =>
+          import('./features/products/product-details/product-details').then(
+            (m) => m.ProductDetailsComponent,
+          ),
+      },
+      {
+        path: 'orders',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/orders/orders-view/orders-view').then(
+            (m) => m.OrdersView,
+          ),
+      },
+    ], 
   },
   {
     path: 'admin',
