@@ -1,0 +1,95 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
+    <header class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">
+            My Profile
+        </h1>
+
+        <p class="mt-2 text-gray-600">
+            View your personal information and delivery address.
+        </p>
+    </header>
+
+    @if (loading()) {
+    <div class="flex justify-center py-12 text-blue-600 font-medium">
+        Loading customer information...
+    </div>
+    } @else if (errorMessage()) {
+    <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg">
+        {{ errorMessage() }}
+    </div>
+    } @else if (customer(); as customer) {
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+
+        <section class="p-6 sm:p-8">
+            <h2 class="text-lg font-semibold text-gray-900 mb-6">
+                Personal Information
+            </h2>
+
+            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+                <div>
+                    <dt class="text-sm text-gray-500">
+                        Name
+                    </dt>
+                    <dd class="mt-1 font-medium text-gray-900">
+                        {{ customer.name }}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt class="text-sm text-gray-500">
+                        Email
+                    </dt>
+                    <dd class="mt-1 font-medium text-gray-900">
+                        {{ customer.email }}
+                    </dd>
+                </div>
+            </dl>
+        </section>
+
+        <section class="p-6 sm:p-8 border-t border-gray-100">
+            <h2 class="text-lg font-semibold text-gray-900 mb-6">
+                Address
+            </h2>
+
+            <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+                <div>
+                    <dt class="text-sm text-gray-500">
+                        Street
+                    </dt>
+                    <dd class="mt-1 font-medium text-gray-900">
+                        {{ customer.address.street }}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt class="text-sm text-gray-500">
+                        City
+                    </dt>
+                    <dd class="mt-1 font-medium text-gray-900">
+                        {{ customer.address.city }}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt class="text-sm text-gray-500">
+                        Postal Code
+                    </dt>
+                    <dd class="mt-1 font-medium text-gray-900">
+                        {{ customer.address.postalCode }}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt class="text-sm text-gray-500">
+                        Country
+                    </dt>
+                    <dd class="mt-1 font-medium text-gray-900">
+                        {{ customer.address.country }}
+                    </dd>
+                </div>
+            </dl>
+        </section>
+
+    </div>
+    }
+</div>

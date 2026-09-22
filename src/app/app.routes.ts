@@ -37,6 +37,14 @@ export const routes: Routes = [
             (m) => m.ProductsView,
           ),
       },
+      {
+        path: 'customer',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/customers/customer-view/customer-view').then(
+            (m) => m.CustomerView,
+          ),
+      },
     ],
   },
   {
