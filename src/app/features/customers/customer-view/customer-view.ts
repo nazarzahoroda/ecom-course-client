@@ -5,11 +5,12 @@ import {
     CustomerResponse,
     CustomersApi,
 } from '../../../core/customers/customers-api';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-customer-view',
     standalone: true,
-    imports: [],
+    imports: [RouterLink],
     templateUrl: './customer-view.html',
 })
 export class CustomerView implements OnInit {

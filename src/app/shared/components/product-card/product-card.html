@@ -1,13 +1,13 @@
 <article
   class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden flex flex-col h-full group">
   <!-- Блок для фото (заглушка або реальне фото) -->
-  <div class="h-48 w-full bg-gray-50 flex items-center justify-center overflow-hidden relative">
-    <img [src]="imageUrl()" [alt]="name()"
+  <div [routerLink]="['/products', id()]" class="h-48 w-full bg-gray-50 flex items-center justify-center overflow-hidden relative">
+    <img [src]="imageUrl()" [alt]="name()" 
       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
     <!-- Якщо фото нема, можна додати fallback іконку як у product-details -->
   </div>
 
-  <div class="p-5 flex flex-col flex-grow">
+  <div [routerLink]="['/products', id()]" class="p-5 flex flex-col flex-grow">
     <h3 class="text-lg font-bold text-gray-900 mb-1 line-clamp-2">{{ name() }}</h3>
 
     <p class="text-xl font-bold text-blue-600 mb-5 mt-auto pt-2">
@@ -15,6 +15,8 @@
     </p>
 
     <button type="button"
+    (click)="$event.stopPropagation(); addToCart(product())"
+     
       class="w-full bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

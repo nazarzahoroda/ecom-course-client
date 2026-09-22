@@ -40,7 +40,7 @@ export class LoginCustomer {
             next: () => {
               this.submitting.set(false);
               this.form.reset();
-              this.router.navigate(['/products']);
+              this.router.navigate(['/']);
             },
             error: () => {
               this.submitting.set(false);
