@@ -1,17 +1,7 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { CartApi, CartItemDetailsDto, UpdateCartItemQuantityDto } from '../../../core/carts/cart-api';
-
-export interface CartItemModel {
-  id: string;
-  productId: string;
-  name: string;
-  sku: string;
-  unitPrice: number;
-  quantity: number;
-  imageUrl?: string | null;
-}
 
 @Component({
   selector: 'app-cart-view',
@@ -26,7 +16,6 @@ export class CartView implements OnInit {
   isLoading = signal<boolean>(true);
   isSubmitting = signal<boolean>(false);
   errorMessage = signal<string | null>(null);
-  isCheckingOut = signal(false);
 
   ngOnInit() {
     this.loadCart();
@@ -48,32 +37,32 @@ export class CartView implements OnInit {
       },
     });
   }
-changeQuantity(item: CartItemDetailsDto, delta: number) {
-  const newQty = item.quantity + delta;
-  if (newQty <= 0) {
-    this.removeItem(item.id);
-    return;
+  changeQuantity(item: CartItemDetailsDto, delta: number) {
+    const newQty = item.quantity + delta;
+    if (newQty <= 0) {
+      this.removeItem(item.id);
+      return;
+    }
+
+    const payload: UpdateCartItemQuantityDto = {
+      productId: item.productId,
+      quantity: newQty,
+    };
+
+    this.cartApi.updateQuantity(payload).subscribe({
+      next: () => {
+        this.cartItems.update((items) =>
+          items.map((i) => (i.id === item.id ? { ...i, quantity: newQty } : i))
+        );
+        this.recalculateTotal();
+      },
+      error: (err) => {
+        this.errorMessage.set(err?.error?.detail || 'Не вдалося оновити кількість.');
+      },
+    });
   }
 
-  const payload: UpdateCartItemQuantityDto = {
-    productId: item.productId, 
-    quantity: newQty,
-  };
-
-  this.cartApi.updateQuantity(payload).subscribe({
-    next: () => {
-      this.cartItems.update((items) =>
-        items.map((i) => (i.id === item.id ? { ...i, quantity: newQty } : i))
-      );
-      this.recalculateTotal();
-    },
-    error: (err) => {
-      this.errorMessage.set(err?.error?.detail || 'Не вдалося оновити кількість.');
-    },
-  });
-}
-
-removeItem(itemId: string) {
+  removeItem(itemId: string) {
     this.cartApi.removeItem(itemId).subscribe({
       next: () => {
         this.cartItems.update((items) => items.filter((i) => i.id !== itemId));
@@ -85,7 +74,7 @@ removeItem(itemId: string) {
     });
   }
 
-onCheckout() {
+  onCheckout() {
     if (this.cartItems().length === 0 || this.isSubmitting()) return;
 
     this.isSubmitting.set(true);

@@ -11,6 +11,7 @@ export interface OrderLineDto {
   productId: string;
   quantity: number;
   unitPrice: number;
+  currency: number;
   lineTotal: number;
 }
 
@@ -19,6 +20,7 @@ export interface OrderDto {
   customerId: string;
   status: OrderStatus;
   total: number;
+  currency: number;
   lines: OrderLineDto[];
 }
 

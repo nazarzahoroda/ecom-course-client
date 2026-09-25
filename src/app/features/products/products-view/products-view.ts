@@ -1,23 +1,23 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { Component, inject, OnInit, signal } from '@angular/core';
+
 import {
     ProductsApi,
     ProductDto,
     getCurrencyCode,
 } from '../../../core/products/products-api';
-import { RouterLink } from '@angular/router';
-import { CartApi } from '../../../core/carts/cart-api';
+
+import { ProductCard } from '../../../shared/components/product-card/product-card';
 
 @Component({
     selector: 'app-products-view',
     standalone: true,
-    imports: [CurrencyPipe, RouterLink],
+    imports: [ProductCard],
     templateUrl: './products-view.html',
     styleUrl: './products-view.scss',
 })
 export class ProductsView implements OnInit {
     private readonly productsApi = inject(ProductsApi);
-    private readonly cartApi = inject(CartApi);
+
     protected readonly getCurrencyCode = getCurrencyCode;
 
     protected readonly products = signal<ProductDto[]>([]);
@@ -30,6 +30,8 @@ export class ProductsView implements OnInit {
 
     protected loadProducts(): void {
         this.loading.set(true);
+        this.errorMessage.set(null);
+
         this.productsApi.getProducts().subscribe({
             next: (data) => {
                 this.products.set(data);
@@ -40,14 +42,5 @@ export class ProductsView implements OnInit {
                 this.loading.set(false);
             },
         });
-    }
-
-    protected addToCart(product: ProductDto): void {
-        this.cartApi.addItemToCart({ productId: product.id, quantity: 1 }).subscribe({
-            next: () => {
-                console.log(`Товар ${product.name} додано до кошика`);
-            },
-            
-    });
     }
 }
