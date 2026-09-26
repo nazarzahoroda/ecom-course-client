@@ -1,22 +1,27 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { forkJoin, Observable } from 'rxjs';
 
 import { OrderDto, OrdersApi, OrderStatus } from '../../../core/orders/orders-api';
-import { ProductDto, ProductsApi } from '../../../core/products/products-api';
+import {
+  ProductDto,
+  ProductsApi,
+  getCurrencyCode,
+} from '../../../core/products/products-api';
 
 const PAGE_SIZE = 10;
 
 @Component({
   selector: 'app-orders-view',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [DecimalPipe],
   templateUrl: './orders-view.html',
   styleUrl: './orders-view.scss',
 })
 export class OrdersView implements OnInit {
   private readonly ordersApi = inject(OrdersApi);
   private readonly productsApi = inject(ProductsApi);
+  protected readonly getCurrencyCode = getCurrencyCode;
 
   protected readonly orders = signal<OrderDto[]>([]);
   protected readonly totalCount = signal(0);

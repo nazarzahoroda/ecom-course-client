@@ -46,13 +46,6 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'cart',
-        loadComponent: () =>
-          import('./features/carts/cart-view/cart-view').then(
-            (m) => m.CartView,
-          ),
-      },
-      {
         path: 'products/:id',
         loadComponent: () =>
           import('./features/products/product-details/product-details').then(
@@ -67,7 +60,14 @@ export const routes: Routes = [
             (m) => m.OrdersView,
           ),
       },
-    ], 
+      {
+        path: 'cart',
+        loadComponent: () =>
+          import('./features/carts/cart-view/cart-view').then(
+            (m) => m.CartView,
+          ),
+      },
+    ],
   },
   {
     path: 'admin',
