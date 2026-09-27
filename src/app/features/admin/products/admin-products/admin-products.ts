@@ -7,6 +7,7 @@ import {
 } from '../../../../core/categories/categories-api';
 import {
   ProductDto,
+  ProductImageDto,
   ProductsApi,
 } from '../../../../core/products/products-api';
 
@@ -42,6 +43,13 @@ export class AdminProducts {
 
   protected readonly editingProductId = signal<string | null>(null);
   protected readonly isProductModalOpen = signal(false);
+
+  protected readonly isImageModalOpen = signal(false);
+  protected readonly selectedProductForImages = signal<ProductDto | null>(null);
+  protected readonly currentProductImages = signal<ProductImageDto[]>([]);
+  protected readonly selectedFile = signal<File | null>(null);
+  protected readonly isMainImage = signal<boolean>(false);
+  protected readonly isUploadingImage = signal<boolean>(false);
 
   protected readonly productForm = this.formBuilder.group({
     name: ['', [Validators.required, Validators.maxLength(100)]],
@@ -178,6 +186,68 @@ export class AdminProducts {
   protected deleteProduct(product: ProductDto): void {
     this.productsApi.deleteProduct(product.id).subscribe({
       next: () => {
+        this.loadProducts();
+      },
+    });
+  }
+  protected openImagesModal(product: ProductDto): void {
+    this.selectedProductForImages.set(product);
+    this.selectedFile.set(null);
+    this.isMainImage.set(false);
+    this.isImageModalOpen.set(true);
+    this.loadProductImages(product.id);
+  }
+
+  protected closeImagesModal(): void {
+    this.isImageModalOpen.set(false);
+    this.selectedProductForImages.set(null);
+    this.currentProductImages.set([]);
+    this.selectedFile.set(null);
+  }
+
+  private loadProductImages(productId: string): void {
+    this.productsApi.getProductImages(productId).subscribe({
+      next: (images) => this.currentProductImages.set(images),
+      error: () => this.currentProductImages.set([]),
+    });
+  }
+
+  protected onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile.set(input.files[0]);
+    }
+  }
+
+  protected uploadImage(): void {
+    const file = this.selectedFile();
+    const product = this.selectedProductForImages();
+
+    if (!file || !product) return;
+
+    this.isUploadingImage.set(true);
+
+    this.productsApi.uploadProductImage(product.id, file, this.isMainImage()).subscribe({
+      next: () => {
+        this.selectedFile.set(null);
+        this.isMainImage.set(false);
+        this.isUploadingImage.set(false);
+        this.loadProductImages(product.id);
+        this.loadProducts(); // Оновлюємо список продуктів для синхронізації головного фото
+      },
+      error: () => {
+        this.isUploadingImage.set(false);
+      },
+    });
+  }
+
+  protected deleteImage(imageId: string): void {
+    const product = this.selectedProductForImages();
+    if (!product) return;
+
+    this.productsApi.deleteProductImage(product.id, imageId).subscribe({
+      next: () => {
+        this.loadProductImages(product.id);
         this.loadProducts();
       },
     });

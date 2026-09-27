@@ -32,8 +32,7 @@ export interface ProductRequest {
     images?: ProductImageDto[];
 }
 
-export interface ProductImageDto 
-{
+export interface ProductImageDto {
     id: string;
     productId: string;
     url?: string;
@@ -76,6 +75,43 @@ export class ProductsApi {
         return this.http.delete<void>(
             `${environment.apiUrl}/Products/${id}`,
             { withCredentials: true },
+        );
+    }
+
+    getProductImages(productId: string): Observable<ProductImageDto[]> {
+        return this.http.get<ProductImageDto[]>(
+            `${environment.apiUrl}/ProductImages/${productId}`,
+            { withCredentials: true }
+        );
+    }
+    uploadProductImage(
+        productId: string,
+        file: File,
+        isMain: boolean = false
+    ): Observable<{ imageId: string }> {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        return this.http.post<{ imageId: string }>(
+            `${environment.apiUrl}/ProductImages`,
+            formData,
+            {
+                params: {
+                    productId,
+                    isMain: isMain.toString()
+                },
+                withCredentials: true
+            }
+        );
+    }
+
+    deleteProductImage(productId: string, imageId: string): Observable<void> {
+        return this.http.delete<void>(
+            `${environment.apiUrl}/ProductImages/${imageId}`,
+            {
+                params: { productId },
+                withCredentials: true
+            }
         );
     }
 }
