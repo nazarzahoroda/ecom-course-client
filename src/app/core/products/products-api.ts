@@ -20,6 +20,7 @@ export interface ProductDto {
     currency: number;
     sku: string;
     categoryId: string;
+    images?: ProductImageDto[];
 }
 
 export interface ProductRequest {
@@ -28,6 +29,15 @@ export interface ProductRequest {
     currency: number;
     sku: string;
     categoryId: string;
+    images?: ProductImageDto[];
+}
+
+export interface ProductImageDto 
+{
+    id: string;
+    productId: string;
+    url?: string;
+    isMain: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
