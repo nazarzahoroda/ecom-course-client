@@ -1,129 +1,3 @@
-<!-- <section class="mx-auto mb-8 max-w-[1200px] rounded-xl bg-white p-6">
-    <div class="mb-6 flex items-center justify-between">
-        <h2 class="m-0 text-xl font-semibold">Products</h2>
-
-        <app-button type="button" variant="primary" (click)="openCreateProductModal()">
-            Add product
-        </app-button>
-    </div>
-
-    @if (isProductModalOpen()) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-        <div class="w-full max-w-[700px] rounded-xl bg-white p-6 shadow-xl">
-            <div class="mb-6 flex items-center justify-between">
-                <h3 class="m-0 text-xl font-semibold">
-                    {{ editingProductId() ? 'Edit product' : 'Add product' }}
-                </h3>
-
-                <button type="button" class="text-2xl leading-none text-gray-400 hover:text-gray-700" aria-label="Close"
-                    (click)="cancelEditProduct()">
-                    &times;
-                </button>
-            </div>
-
-            <form class="grid grid-cols-2 gap-3" [formGroup]="productForm" (ngSubmit)="createProduct()">
-
-                <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text"
-                    placeholder="Product name" formControlName="name" />
-
-                <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="number"
-                    placeholder="Amount" formControlName="amount" />
-
-                <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm"
-                    formControlName="currency" [class.text-gray-400]="productForm.controls.currency.value === null">
-                    <option [ngValue]="null" disabled class="text-gray-400">
-                        Select currency
-                    </option>
-                    <option [ngValue]="0" class="text-black">USD</option>
-                    <option [ngValue]="1" class="text-black">EUR</option>
-                    <option [ngValue]="2" class="text-black">UAH</option>
-                </select>
-
-                <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text"
-                    placeholder="SKU" formControlName="sku" />
-
-                <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm"
-                    formControlName="categoryId" [class.text-gray-400]="productForm.controls.categoryId.value === null">
-                    <option [ngValue]="null" disabled class="text-gray-400">
-                        Select category
-                    </option>
-
-                    @for (category of categories(); track category.id) {
-                    <option [value]="category.id" class="text-black">
-                        {{ category.name }}
-                    </option>
-                    }
-                </select>
-
-                <div class="col-span-2 mt-3 flex justify-end gap-2">
-                    <app-button type="button" (click)="cancelEditProduct()">
-                        Cancel
-                    </app-button>
-
-                    <app-button type="submit" variant="primary">
-                        {{ editingProductId() ? 'Update product' : 'Add product' }}
-                    </app-button>
-                </div>
-            </form>
-        </div>
-    </div>
-    }
-
-    <div class="overflow-x-auto">
-        <div
-            class="grid grid-cols-[1.4fr_0.9fr_0.9fr_1fr_1.8fr_0.8fr] items-center gap-3 rounded-t-lg bg-gray-50 px-3.5 py-3 font-semibold text-gray-600">
-            <span class="min-w-0">Name</span>
-            <span class="min-w-0">Amount</span>
-            <span class="min-w-0">Currency</span>
-            <span class="min-w-0">SKU</span>
-            <span class="min-w-0">Category</span>
-            <span class="min-w-0">Actions</span>
-        </div>
-
-        @for (product of paginatedProducts(); track product.id) {
-        <div
-            class="grid grid-cols-[1.4fr_0.9fr_0.9fr_1fr_1.8fr_0.8fr] items-center gap-3 border-b border-gray-200 px-3.5 py-3">
-            <span class="min-w-0 truncate" [title]="product.name">
-                {{ product.name }}
-            </span>
-            <span class="min-w-0">{{ product.amount }}</span>
-            <span class="min-w-0">
-                {{ getCurrencyName(product.currency) }}
-            </span>
-            <span class="min-w-0">{{ product.sku }}</span>
-            <span class="min-w-0">
-                {{ getCategoryName(product.categoryId) }}
-            </span>
-
-            <div class="flex gap-2">
-                <app-button variant="primary" (click)="startEditProduct(product)">
-                    Edit
-                </app-button>
-
-                <app-button variant="danger" (click)="deleteProduct(product)">
-                    Delete
-                </app-button>
-            </div>
-        </div>
-        }
-        @if (totalPages() > 1) {
-        <div class="mt-6 flex items-center justify-between">
-            <app-button type="button" variant="primary" [disabled]="currentPage() === 1" (click)="previousPage()">
-                Previous
-            </app-button>
-
-            <span class="text-sm text-gray-600">
-                Page {{ currentPage() }} of {{ totalPages() }}
-            </span>
-
-            <app-button type="button" variant="primary" [disabled]="currentPage() === totalPages()"
-                (click)="nextPage()">
-                Next
-            </app-button>
-        </div>
-        }
-    </div>
-</section> -->
 <section class="mx-auto mb-8 max-w-[1200px] rounded-xl bg-white p-6">
     <div class="mb-6 flex items-center justify-between">
         <h2 class="m-0 text-xl font-semibold">Products</h2>
@@ -133,7 +7,6 @@
         </app-button>
     </div>
 
-    <!-- Модалка додавання / редагування товару -->
     @if (isProductModalOpen()) {
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
         <div class="w-full max-w-[700px] rounded-xl bg-white p-6 shadow-xl">
@@ -191,76 +64,70 @@
     </div>
     }
 
-    <!-- Модалка керування зображеннями товару -->
     @if (isImageModalOpen()) {
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
         <div class="flex max-h-[90vh] w-full max-w-[750px] flex-col rounded-xl bg-white p-6 shadow-xl">
-            
+
             <div class="mb-4 flex items-center justify-between border-b pb-3">
                 <h3 class="m-0 text-xl font-semibold">
                     Images: {{ selectedProductForImages()?.name }}
                 </h3>
-                <button type="button" class="text-2xl leading-none text-gray-400 hover:text-gray-700" (click)="closeImagesModal()">
+                <button type="button" class="text-2xl leading-none text-gray-400 hover:text-gray-700"
+                    (click)="closeImagesModal()">
                     &times;
                 </button>
             </div>
 
-            <!-- Upload Zone -->
             <div class="mb-6 rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4">
                 <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <input type="file" 
-                           accept="image/jpeg,image/png,image/webp" 
-                           (change)="onFileSelected($event)"
-                           class="text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-[#e7eefc] file:px-4 file:py-2 file:text-sm file:font-medium file:text-[#3f6fd9] hover:file:bg-[#d7e3fa]" />
+                    <input type="file" accept="image/jpeg,image/png,image/webp" (change)="onFileSelected($event)"
+                        class="text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-[#e7eefc] file:px-4 file:py-2 file:text-sm file:font-medium file:text-[#3f6fd9] hover:file:bg-[#d7e3fa]" />
 
                     <div class="flex items-center gap-4">
                         <label class="flex items-center gap-1.5 text-sm text-gray-700">
-                            <input type="checkbox" 
-                                   [checked]="isMainImage()" 
-                                   (change)="isMainImage.set(!isMainImage())"
-                                   class="h-4 w-4 rounded border-gray-300 text-[#3f6fd9]" />
+                            <input type="checkbox" [checked]="isMainImage()" (change)="isMainImage.set(!isMainImage())"
+                                class="h-4 w-4 rounded border-gray-300 text-[#3f6fd9]" />
                             Is main
                         </label>
 
-                        <app-button type="button" 
-                                    variant="primary" 
-                                    [disabled]="!selectedFile() || isUploadingImage()"
-                                    (click)="uploadImage()">
+                        <app-button type="button" variant="primary" [disabled]="!selectedFile() || isUploadingImage()"
+                            (click)="uploadImage()">
                             {{ isUploadingImage() ? 'Uploading...' : 'Upload' }}
                         </app-button>
                     </div>
                 </div>
             </div>
 
-            <!-- Existing Images Grid -->
             <div class="flex-1 overflow-y-auto">
                 @if (currentProductImages().length === 0) {
-                    <p class="py-8 text-center text-sm text-gray-400">
-                        No images uploaded yet.
-                    </p>
+                <p class="py-8 text-center text-sm text-gray-400">
+                    No images uploaded yet.
+                </p>
                 } @else {
-                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                        @for (img of currentProductImages(); track img.id) {
-                            <div class="group relative aspect-square overflow-hidden rounded-lg border border-gray-200 bg-gray-100">
-                                <img [src]="img.url" alt="Product image" class="h-full w-full object-cover" />
+                <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                    @for (img of currentProductImages(); track img.id) {
+                    <div
+                        class="group relative aspect-square overflow-hidden rounded-lg border border-gray-200 bg-gray-100">
+                        <img [src]="img.url" alt="Product image" class="h-full w-full object-cover" />
 
-                                @if (img.isMain) {
-                                    <span class="absolute left-1.5 top-1.5 rounded bg-[#3f6fd9] px-2 py-0.5 text-[10px] font-semibold text-white shadow">
-                                        Main
-                                    </span>
-                                }
-
-                                <button type="button" 
-                                        (click)="deleteImage(img.id)"
-                                        class="absolute bottom-1.5 right-1.5 rounded-md bg-red-600/90 p-1.5 text-white opacity-0 shadow transition-opacity hover:bg-red-700 group-hover:opacity-100"
-                                        title="Delete image">
-                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                </button>
-                            </div>
+                        @if (img.isMain) {
+                        <span
+                            class="absolute left-1.5 top-1.5 rounded bg-[#3f6fd9] px-2 py-0.5 text-[10px] font-semibold text-white shadow">
+                            Main
+                        </span>
                         }
+
+                        <button type="button" (click)="deleteImage(img.id)"
+                            class="absolute bottom-1.5 right-1.5 rounded-md bg-red-600/90 p-1.5 text-white opacity-0 shadow transition-opacity hover:bg-red-700 group-hover:opacity-100"
+                            title="Delete image">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
                     </div>
+                    }
+                </div>
                 }
             </div>
 
@@ -274,7 +141,6 @@
     </div>
     }
 
-    <!-- Таблиця товарів -->
     <div class="overflow-x-auto">
         <div
             class="grid grid-cols-[1.4fr_0.9fr_0.9fr_1fr_1.8fr_1.4fr] items-center gap-3 rounded-t-lg bg-gray-50 px-3.5 py-3 font-semibold text-gray-600">

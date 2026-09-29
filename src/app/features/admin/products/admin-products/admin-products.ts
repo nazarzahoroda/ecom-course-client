@@ -219,28 +219,6 @@ export class AdminProducts {
     }
   }
 
-  protected uploadImage(): void {
-    const file = this.selectedFile();
-    const product = this.selectedProductForImages();
-
-    if (!file || !product) return;
-
-    this.isUploadingImage.set(true);
-
-    this.productsApi.uploadProductImage(product.id, file, this.isMainImage()).subscribe({
-      next: () => {
-        this.selectedFile.set(null);
-        this.isMainImage.set(false);
-        this.isUploadingImage.set(false);
-        this.loadProductImages(product.id);
-        this.loadProducts(); // Оновлюємо список продуктів для синхронізації головного фото
-      },
-      error: () => {
-        this.isUploadingImage.set(false);
-      },
-    });
-  }
-
   protected deleteImage(imageId: string): void {
     const product = this.selectedProductForImages();
     if (!product) return;
@@ -251,5 +229,37 @@ export class AdminProducts {
         this.loadProducts();
       },
     });
+  }
+  protected uploadImage(): void {
+    const file = this.selectedFile();
+    const product = this.selectedProductForImages();
+
+    if (!file || !product) {
+      return;
+    }
+
+    this.isUploadingImage.set(true);
+
+    this.productsApi
+      .uploadProductImageViaSas(product.id, file, this.isMainImage())
+      .subscribe({
+        next: (response) => {
+          this.selectedFile.set(null);
+          this.isMainImage.set(false);
+          this.isUploadingImage.set(false);
+
+          const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = '';
+          }
+
+          this.loadProductImages(product.id);
+          this.loadProducts();
+        },
+        error: (err) => {
+          console.error('Помилка під час завантаження через SAS:', err);
+          this.isUploadingImage.set(false);
+        }
+      });
   }
 }
