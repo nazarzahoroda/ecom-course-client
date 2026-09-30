@@ -58,4 +58,18 @@ export class ProductDetailsComponent implements OnInit {
         },
       });
   }
+
+  selectedImageIndex = signal<number>(0);
+
+  selectImage(index: number): void {
+    this.selectedImageIndex.set(index);
+  }
+
+  prevImage(total: number): void {
+    this.selectedImageIndex.update(idx => (idx === 0 ? total - 1 : idx - 1));
+  }
+
+  nextImage(total: number): void {
+    this.selectedImageIndex.update(idx => (idx === total - 1 ? 0 : idx + 1));
+  }
 }

@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export enum Currency {
@@ -20,6 +20,7 @@ export interface ProductDto {
     currency: number;
     sku: string;
     categoryId: string;
+    images?: ProductImageDto[];
 }
 
 export interface ProductRequest {
@@ -28,8 +29,19 @@ export interface ProductRequest {
     currency: number;
     sku: string;
     categoryId: string;
+    images?: ProductImageDto[];
 }
 
+export interface ProductImageDto {
+    id: string;
+    productId: string;
+    url?: string;
+    isMain: boolean;
+}
+export interface InitiateUploadResponse {
+    uploadUrl: string;
+    blobName: string;
+}
 @Injectable({ providedIn: 'root' })
 export class ProductsApi {
     private readonly http = inject(HttpClient);
@@ -66,6 +78,66 @@ export class ProductsApi {
         return this.http.delete<void>(
             `${environment.apiUrl}/Products/${id}`,
             { withCredentials: true },
+        );
+    }
+
+    getProductImages(productId: string): Observable<ProductImageDto[]> {
+        return this.http.get<ProductImageDto[]>(
+            `${environment.apiUrl}/ProductImages/${productId}`,
+            { withCredentials: true }
+        );
+    }
+
+    deleteProductImage(productId: string, imageId: string): Observable<void> {
+        return this.http.delete<void>(
+            `${environment.apiUrl}/ProductImages/${imageId}`,
+            {
+                params: { productId },
+                withCredentials: true
+            }
+        );
+    }
+
+    initiateProductImageUpload(
+        productId: string,
+        fileName: string,
+        contentType: string
+    ): Observable<InitiateUploadResponse> {
+        return this.http.post<InitiateUploadResponse>(
+            `${environment.apiUrl}/ProductImages/${productId}/initiate-upload`,
+            { fileName, contentType },
+            { withCredentials: true }
+        );
+    }
+
+    uploadToAzureBlob(uploadUrl: string, file: File): Observable<void> {
+        const headers = new HttpHeaders({
+            'x-ms-blob-type': 'BlockBlob',
+            'Content-Type': file.type
+        });
+        return this.http.put<void>(uploadUrl, file, { headers });
+    }
+
+    confirmProductImageUpload(
+        productId: string,
+        blobName: string,
+        contentType: string,
+        isMain: boolean
+    ): Observable<{ imageId: string }> {
+        return this.http.post<{ imageId: string }>(
+            `${environment.apiUrl}/ProductImages/${productId}/confirm-upload`,
+            { blobName, contentType, isMain },
+            { withCredentials: true }
+        );
+    }
+
+    uploadProductImageViaSas(productId: string, file: File, isMain: boolean = false): Observable<{ imageId: string }> {
+        return this.initiateProductImageUpload(productId, file.name, file.type).pipe(
+            switchMap(res =>
+                this.uploadToAzureBlob(res.uploadUrl, file).pipe(
+                    switchMap(() => this.confirmProductImageUpload(productId, res.blobName, file.type, isMain))
+                )
+            )
         );
     }
 }
