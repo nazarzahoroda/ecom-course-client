@@ -28,24 +28,32 @@
                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
 
-                <!-- Опціональний бейдж з кількістю товарів (наприклад, cartService.totalCount()) -->
-                <!--
-        @if (cartService.totalItems() > 0) {
-        <span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-[11px] font-bold text-white">
-            {{ cartService.totalItems() }}
-        </span>
-        } 
-        -->
+                @if (cartState.totalItems() > 0) {
+                <span class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center
+               rounded-full bg-blue-600 px-1 text-[11px] font-bold text-white">
+                    {{ cartState.totalItems() }}
+                </span>
+                }
+
             </a>
             @if (isAdmin()) {
             <a routerLink="/admin" class="text-sm font-medium text-gray-600 transition-colors hover:text-blue-600">
                 Admin
             </a>
             }
-            <a routerLink="/customer" class="text-sm font-medium text-gray-600 transition-colors hover:text-blue-600">
-                {{ authService.currentUser()?.email }}
-            </a>
+            <a routerLink="/customer" class="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2
+                text-sm font-medium text-gray-700 transition-all
+                hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600" aria-label="Open profile">
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white"
+                    aria-hidden="true">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z" />
+                    </svg>
+                </span>
 
+                <span>{{ authService.currentUser()?.email }}</span>
+            </a>
             <button type="button" (click)="onLogout()"
                 class="bg-gray-900 hover:bg-gray-800 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
                 Logout

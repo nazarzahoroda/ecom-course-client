@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { CartApi, CartItemDetailsDto, UpdateCartItemQuantityDto } from '../../../core/carts/cart-api';
+import { CartStateService } from '../../../core/carts/cart-state.service';
 
 @Component({
   selector: 'app-cart-view',
@@ -10,6 +11,7 @@ import { CartApi, CartItemDetailsDto, UpdateCartItemQuantityDto } from '../../..
 })
 export class CartView implements OnInit {
   private readonly cartApi = inject(CartApi);
+  private readonly cartState = inject(CartStateService);
   private readonly router = inject(Router);
   cartItems = signal<CartItemDetailsDto[]>([]);
   totalAmount = signal<number>(0);
@@ -55,6 +57,7 @@ export class CartView implements OnInit {
           items.map((i) => (i.id === item.id ? { ...i, quantity: newQty } : i))
         );
         this.recalculateTotal();
+        this.cartState.refresh();
       },
       error: (err) => {
         this.errorMessage.set(err?.error?.detail || 'Не вдалося оновити кількість.');
@@ -67,6 +70,7 @@ export class CartView implements OnInit {
       next: () => {
         this.cartItems.update((items) => items.filter((i) => i.id !== itemId));
         this.recalculateTotal();
+        this.cartState.refresh();
       },
       error: () => {
         this.errorMessage.set('Failed to remove item.');
@@ -84,6 +88,7 @@ export class CartView implements OnInit {
       next: (orderId) => {
         this.isSubmitting.set(false);
         this.router.navigate(['/orders']);
+        this.cartState.refresh();
       },
       error: (err) => {
         this.isSubmitting.set(false);

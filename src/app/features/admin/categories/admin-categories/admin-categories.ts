@@ -21,18 +21,19 @@ export class AdminCategories {
 
   protected readonly categories = signal<CategoryDto[]>([]);
   protected readonly currentPage = signal(1);
-  protected readonly pageSize = 5;
+  protected readonly pageSize = signal(10);
+  protected readonly pageSizeOptions = [10, 25, 50];
 
   protected readonly isCategoryModalOpen = signal(false);
   protected readonly editingCategoryId = signal<string | null>(null);
 
   protected readonly totalPages = computed(() =>
-    Math.ceil(this.categories().length / this.pageSize)
+    Math.ceil(this.categories().length / this.pageSize())
   );
 
   protected readonly paginatedCategories = computed(() => {
-    const startIndex = (this.currentPage() - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
+    const startIndex = (this.currentPage() - 1) * this.pageSize();
+    const endIndex = startIndex + this.pageSize();
 
     return this.categories().slice(startIndex, endIndex);
   });
@@ -69,6 +70,14 @@ export class AdminCategories {
     if (this.currentPage() < this.totalPages()) {
       this.currentPage.update((page) => page + 1);
     }
+  }
+
+  protected changePageSize(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    const pageSize = Number(select.value);
+
+    this.pageSize.set(pageSize);
+    this.currentPage.set(1);
   }
 
   protected openCreateCategoryModal(): void {
