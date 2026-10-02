@@ -1,7 +1,9 @@
 import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
 import { ProductDto } from '../../../core/products/products-api';
 import { CartApi } from '../../../core/carts/cart-api';
+import { CartStateService } from '../../../core/carts/cart-state.service';
 
 @Component({
   selector: 'app-product-card',
@@ -18,14 +20,18 @@ export class ProductCard {
   readonly imageUrl = input.required<string>();
 
   private readonly cartApi = inject(CartApi);
-
+  protected readonly cartState = inject(CartStateService);
 
   protected addToCart(product: ProductDto): void {
-    this.cartApi.addItemToCart({ productId: product.id, quantity: 1 }).subscribe({
-      next: () => {
-        console.log(`Товар ${product.name} додано до кошика`);
-      },
-
-    });
+    this.cartApi
+      .addItemToCart({
+        productId: product.id,
+        quantity: 1,
+      })
+      .subscribe({
+        next: () => {
+          this.cartState.refresh();
+        },
+      });
   }
 }
