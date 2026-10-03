@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { CartStateService } from '../../../core/carts/cart-state.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import {
@@ -20,12 +21,14 @@ export class ProductDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly productsApi = inject(ProductsApi);
   private readonly cartApi = inject(CartApi);
+  private readonly cartState = inject(CartStateService);
 
   protected readonly getCurrencyCode = getCurrencyCode;
 
   protected readonly product = signal<ProductDto | null>(null);
   protected readonly isLoading = signal(true);
   protected readonly errorMessage = signal<string | null>(null);
+  protected readonly isAddedToCart = signal(false);
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('id');
@@ -54,7 +57,11 @@ export class ProductDetailsComponent implements OnInit {
       .addItemToCart({ productId: product.id, quantity: 1 })
       .subscribe({
         next: () => {
-          console.log(`Товар ${product.name} додано до кошика`);
+          this.isAddedToCart.set(true);
+          this.cartState.refresh();
+        },
+        error: (error) => {
+          console.error('Failed to add product to cart:', error);
         },
       });
   }

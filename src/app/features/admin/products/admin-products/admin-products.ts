@@ -28,15 +28,16 @@ export class AdminProducts {
   protected readonly products = signal<ProductDto[]>([]);
 
   protected readonly currentPage = signal(1);
-  protected readonly pageSize = 5;
+  protected readonly pageSize = signal(10);
+  protected readonly pageSizeOptions = [10, 25, 50];
 
   protected readonly totalPages = computed(() =>
-    Math.ceil(this.products().length / this.pageSize)
+    Math.ceil(this.products().length / this.pageSize())
   );
 
   protected readonly paginatedProducts = computed(() => {
-    const startIndex = (this.currentPage() - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
+    const startIndex = (this.currentPage() - 1) * this.pageSize();
+    const endIndex = startIndex + this.pageSize();
 
     return this.products().slice(startIndex, endIndex);
   });
@@ -96,6 +97,14 @@ export class AdminProducts {
     if (this.currentPage() < this.totalPages()) {
       this.currentPage.update((page) => page + 1);
     }
+  }
+
+  protected changePageSize(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    const pageSize = Number(select.value);
+
+    this.pageSize.set(pageSize);
+    this.currentPage.set(1);
   }
 
   protected getCategoryName(categoryId: string): string {

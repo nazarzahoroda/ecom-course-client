@@ -1,34 +1,59 @@
-<section class="mx-auto mb-8 max-w-[600px] rounded-xl bg-white p-6">
-    <div class="mb-6 flex items-center justify-between">
-        <h2 class="m-0 text-xl font-semibold">
-            Categories
-        </h2>
+<section class="mx-auto mb-8 max-w-[1200px]">
+    <!-- Page heading -->
+    <div class="mb-6 flex items-end justify-between gap-4">
+        <div>
+            <h2 class="m-0 text-2xl font-bold tracking-tight text-gray-900">
+                Categories
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-500">
+                Manage categories in your store
+            </p>
+        </div>
 
         <app-button type="button" variant="primary" (click)="openCreateCategoryModal()">
             Add category
         </app-button>
     </div>
 
+    <!-- Category modal -->
     @if (isCategoryModalOpen()) {
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
         <div class="w-full max-w-[500px] rounded-xl bg-white p-6 shadow-xl">
-            <div class="mb-6 flex items-center justify-between">
-                <h3 class="m-0 text-xl font-semibold">
-                    {{ editingCategoryId() ? 'Edit category' : 'Add category' }}
-                </h3>
 
-                <button type="button" class="text-2xl leading-none text-gray-400 hover:text-gray-700" aria-label="Close"
-                    (click)="cancelEditCategory()">
+            <div class="mb-6 flex items-center justify-between">
+                <div>
+                    <h3 class="m-0 text-xl font-semibold text-gray-900">
+                        {{ editingCategoryId() ? 'Edit category' : 'Add category' }}
+                    </h3>
+
+                    <p class="mt-1 text-sm text-gray-500">
+                        {{ editingCategoryId()
+                        ? 'Update category information'
+                        : 'Create a new category for your store' }}
+                    </p>
+                </div>
+
+                <button type="button"
+                    class="flex h-9 w-9 items-center justify-center rounded-lg text-2xl leading-none text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+                    aria-label="Close" (click)="cancelEditCategory()">
                     &times;
                 </button>
             </div>
 
             <form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
 
-                <input class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text"
-                    placeholder="Category name" formControlName="name" />
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-sm font-medium text-gray-700">
+                        Category name
+                    </label>
 
-                <div class="mt-6 flex justify-end gap-2">
+                    <input
+                        class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                        type="text" placeholder="Category name" formControlName="name" />
+                </div>
+
+                <div class="mt-6 flex justify-end gap-2 border-t border-gray-100 pt-5">
                     <app-button type="button" (click)="cancelEditCategory()">
                         Cancel
                     </app-button>
@@ -38,29 +63,76 @@
                     </app-button>
                 </div>
             </form>
+
         </div>
     </div>
     }
 
-    <div class="flex flex-col gap-2">
-        @for (category of paginatedCategories(); track category.id) {
-        <app-category-card [category]="category" (edit)="startEditCategory($event)" (delete)="deleteCategory($event)" />
-        }
+    <!-- Categories -->
+    <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+
+        <div class="grid grid-cols-[1fr_auto] items-center gap-4 border-b border-gray-200 bg-gray-50 px-5 py-3">
+
+            <span class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                Category
+            </span>
+
+            <span class="w-[110px] text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                Actions
+            </span>
+
+        </div>
+
+        <div>
+            @for (category of paginatedCategories(); track category.id) {
+            <div class="border-b border-gray-100 last:border-b-0">
+                <app-category-card [category]="category" (edit)="startEditCategory($event)"
+                    (delete)="deleteCategory($event)" />
+            </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-t border-gray-200 bg-gray-50/50 px-5 py-4">
+
+            <div class="flex items-center gap-2">
+                <span class="text-sm text-gray-500">
+                    Items per page
+                </span>
+
+                <select
+                    class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                    [value]="pageSize()" (change)="changePageSize($event)">
+
+                    @for (size of pageSizeOptions; track size) {
+                    <option [value]="size">
+                        {{ size }}
+                    </option>
+                    }
+                </select>
+            </div>
+
+            <div class="flex items-center gap-4">
+
+                @if (totalPages() > 1) {
+                <app-button type="button" variant="primary" [disabled]="currentPage() === 1" (click)="previousPage()">
+                    Previous
+                </app-button>
+                }
+
+                <span class="min-w-24 text-center text-sm text-gray-500">
+                    Page {{ currentPage() }} of {{ totalPages() || 1 }}
+                </span>
+
+                @if (totalPages() > 1) {
+                <app-button type="button" variant="primary" [disabled]="currentPage() === totalPages()"
+                    (click)="nextPage()">
+                    Next
+                </app-button>
+                }
+
+            </div>
+
+        </div>
     </div>
-
-    @if (totalPages() > 1) {
-    <div class="mt-6 flex items-center justify-between">
-        <app-button type="button" variant="primary" [disabled]="currentPage() === 1" (click)="previousPage()">
-            Previous
-        </app-button>
-
-        <span class="text-sm text-gray-600">
-            Page {{ currentPage() }} of {{ totalPages() }}
-        </span>
-
-        <app-button type="button" variant="primary" [disabled]="currentPage() === totalPages()" (click)="nextPage()">
-            Next
-        </app-button>
-    </div>
-    }
 </section>
