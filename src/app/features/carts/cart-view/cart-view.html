@@ -59,7 +59,7 @@
     <article class="grid gap-6 border-b border-gray-200 py-6 md:grid-cols-[1fr_180px_160px] md:items-center">
 
       <!-- Product -->
-      <div class="flex items-center gap-5">
+      <div  [routerLink]="['/products', item.productId]" class="flex items-center gap-5">
 
         <div class="flex h-28 w-28 shrink-0 items-center justify-center bg-gray-100">
           @if (item.imageUrl) {
