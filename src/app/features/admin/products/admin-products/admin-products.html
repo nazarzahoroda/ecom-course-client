@@ -90,16 +90,6 @@
                         class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                         type="text" placeholder="SKU" formControlName="sku" />
                 </div>
-                <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm"
-                    formControlName="currency" [class.text-gray-400]="productForm.controls.currency.value === null">
-                    <option [ngValue]="null" disabled class="text-gray-400">Select currency</option>
-                    <option [ngValue]="0" class="text-black">USD</option>
-                    <option [ngValue]="1" class="text-black">EUR</option>
-                    <option [ngValue]="2" class="text-black">UAH</option>
-                </select>
-
-                <input class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm" type="text"
-                    placeholder="SKU" formControlName="sku" />
 
                 <div class="flex flex-col gap-1.5 sm:col-span-2">
                     <label class="text-sm font-medium text-gray-700">
@@ -122,15 +112,6 @@
                         }
                     </select>
                 </div>
-                <select class="rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm"
-                    formControlName="categoryId" [class.text-gray-400]="productForm.controls.categoryId.value === null">
-                    <option [ngValue]="null" disabled class="text-gray-400">Select category</option>
-                    @for (category of categories(); track category.id) {
-                    <option [value]="category.id" class="text-black">
-                        {{ category.name }}
-                    </option>
-                    }
-                </select>
 
                 <div class="mt-2 flex justify-end gap-2 border-t border-gray-100 pt-5 sm:col-span-2">
                     <app-button type="button" (click)="cancelEditProduct()">
@@ -146,6 +127,7 @@
     </div>
     }
 
+    <!-- Image modal -->
     @if (isImageModalOpen()) {
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
         <div class="flex max-h-[90vh] w-full max-w-[750px] flex-col rounded-xl bg-white p-6 shadow-xl">
@@ -231,7 +213,6 @@
                 <!-- Header -->
                 <div
                     class="grid grid-cols-[1.5fr_0.8fr_0.8fr_1fr_1.7fr_1fr] items-center gap-4 border-b border-gray-200 bg-gray-50 px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
-
                     <span>Name</span>
                     <span>Amount</span>
                     <span>Currency</span>
@@ -239,16 +220,6 @@
                     <span>Category</span>
                     <span>Actions</span>
                 </div>
-    <div class="overflow-x-auto">
-        <div
-            class="grid grid-cols-[1.4fr_0.9fr_0.9fr_1fr_1.8fr_1.4fr] items-center gap-3 rounded-t-lg bg-gray-50 px-3.5 py-3 font-semibold text-gray-600">
-            <span class="min-w-0">Name</span>
-            <span class="min-w-0">Amount</span>
-            <span class="min-w-0">Currency</span>
-            <span class="min-w-0">SKU</span>
-            <span class="min-w-0">Category</span>
-            <span class="min-w-0">Actions</span>
-        </div>
 
                 <!-- Rows -->
                 @for (product of paginatedProducts(); track product.id) {
@@ -274,33 +245,15 @@
                     <span class="min-w-0 truncate text-gray-600" [title]="getCategoryName(product.categoryId)">
                         {{ getCategoryName(product.categoryId) }}
                     </span>
-        @for (product of paginatedProducts(); track product.id) {
-        <div
-            class="grid grid-cols-[1.4fr_0.9fr_0.9fr_1fr_1.8fr_1.4fr] items-center gap-3 border-b border-gray-200 px-3.5 py-3">
-            <span class="min-w-0 truncate" [title]="product.name">
-                {{ product.name }}
-            </span>
-            <span class="min-w-0">{{ product.amount }}</span>
-            <span class="min-w-0">
-                {{ getCurrencyName(product.currency) }}
-            </span>
-            <span class="min-w-0">{{ product.sku }}</span>
-            <span class="min-w-0">
-                {{ getCategoryName(product.categoryId) }}
-            </span>
 
-                    <div class="flex justify-end gap-2">
+                    <div class="flex items-center justify-end gap-1.5">
+                        <app-button variant="primary" (click)="openImagesModal(product)">
+                            Images
+                        </app-button>
+
                         <app-button variant="primary" (click)="startEditProduct(product)">
                             Edit
                         </app-button>
-            <div class="flex items-center gap-1.5">
-                <app-button variant="primary" (click)="openImagesModal(product)">
-                    Images
-                </app-button>
-
-                <app-button variant="primary" (click)="startEditProduct(product)">
-                    Edit
-                </app-button>
 
                         <app-button variant="danger" (click)="deleteProduct(product)">
                             Delete
