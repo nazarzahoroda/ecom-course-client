@@ -2,12 +2,10 @@
     <div class="mx-auto flex max-w-7xl flex-col items-center gap-5 px-4 py-6 text-center
                md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 md:px-6 md:text-left
                lg:px-8">
-        <!-- Copyright -->
         <p class="text-sm text-gray-400 md:justify-self-start">
             © 2026 EcomCourse. All rights reserved.
         </p>
 
-        <!-- Brand -->
         <div class="text-center">
             <p class="text-base font-semibold text-gray-900">
                 EcomCourse
@@ -17,14 +15,17 @@
                 Your online store for everyday shopping.
             </p>
         </div>
-
-        <!-- Navigation -->
         <nav class="flex items-center gap-6 text-sm font-medium text-gray-500
-                   md:justify-self-end">
+           md:justify-self-end">
             <a routerLink="/products" class="transition-colors hover:text-blue-600">
                 Products
             </a>
 
+            <a routerLink="/categories" class="transition-colors hover:text-blue-600">
+                Categories
+            </a>
+
+            @if (!authService.isAuthenticated()) {
             <a routerLink="/login" class="transition-colors hover:text-blue-600">
                 Login
             </a>
@@ -32,6 +33,7 @@
             <a routerLink="/register" class="transition-colors hover:text-blue-600">
                 Register
             </a>
+            }
         </nav>
     </div>
 </footer>

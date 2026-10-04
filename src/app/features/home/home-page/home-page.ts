@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+﻿import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import {
@@ -23,7 +23,6 @@ import { ProductCard } from '../../../shared/components/product-card/product-car
     ProductCard,
   ],
   templateUrl: './home-page.html',
-  styleUrl: './home-page.scss',
 })
 export class HomePage implements OnInit {
   private readonly productsApi = inject(ProductsApi);
@@ -50,7 +49,7 @@ export class HomePage implements OnInit {
         this.categories.set(categories);
       },
       error: () => {
-        this.errorMessage.set('Не вдалося завантажити категорії');
+        this.errorMessage.set('РќРµ РІРґР°Р»РѕСЃСЏ Р·Р°РІР°РЅС‚Р°Р¶РёС‚Рё РєР°С‚РµРіРѕСЂС–С—');
         this.loading.set(false);
       },
     });
@@ -61,7 +60,7 @@ export class HomePage implements OnInit {
         this.loading.set(false);
       },
       error: () => {
-        this.errorMessage.set('Не вдалося завантажити товари');
+        this.errorMessage.set('РќРµ РІРґР°Р»РѕСЃСЏ Р·Р°РІР°РЅС‚Р°Р¶РёС‚Рё С‚РѕРІР°СЂРё');
         this.loading.set(false);
       },
     });

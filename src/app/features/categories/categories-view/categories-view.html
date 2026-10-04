@@ -2,7 +2,7 @@
 
     <header class="mb-8">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900">
-            Products
+            Categories
         </h1>
     </header>
 
@@ -18,19 +18,19 @@
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-        @for (product of paginatedProducts(); track product.id) {
-        <app-product-card [product]="product" [id]="product.id" [name]="product.name" [amount]="product.amount"
-            [currency]="getCurrencyCode(product.currency)"
-            imageUrl="https://placehold.co/400x300/f8fafc/94a3b8?text=Картинка+товару+формується" />
+        @for (category of paginatedCategories(); track category.id) {
+        <app-storefront-category-card
+            [name]="category.name"
+            imageUrl="https://placehold.co/400x300/f8fafc/94a3b8?text=Category" />
         } @empty {
         <div class="col-span-full py-20 text-center text-gray-500">
-            Товарів поки немає.
+            Категорій поки немає.
         </div>
         }
 
     </div>
 
-    @if (products().length > 0) {
+    @if (categories().length > 0) {
     <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-gray-100 pt-6">
 
         <div class="flex items-center gap-2">
@@ -38,8 +38,10 @@
                 Items per page
             </span>
 
-            <select class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition
-                       focus:border-blue-500 focus:ring-2 focus:ring-blue-100" [value]="pageSize()"
+            <select
+                class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 outline-none transition
+                       focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                [value]="pageSize()"
                 (change)="changePageSize($event)">
                 @for (size of pageSizeOptions; track size) {
                 <option [value]="size">
@@ -52,7 +54,11 @@
         @if (totalPages() > 1) {
         <div class="flex items-center gap-4">
 
-            <button type="button" [disabled]="currentPage() === 1" (click)="previousPage()" class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600
+            <button
+                type="button"
+                [disabled]="currentPage() === 1"
+                (click)="previousPage()"
+                class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600
                        transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600
                        disabled:cursor-not-allowed disabled:opacity-40">
                 Previous
@@ -62,7 +68,11 @@
                 Page {{ currentPage() }} of {{ totalPages() }}
             </span>
 
-            <button type="button" [disabled]="currentPage() === totalPages()" (click)="nextPage()" class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600
+            <button
+                type="button"
+                [disabled]="currentPage() === totalPages()"
+                (click)="nextPage()"
+                class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-600
                        transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600
                        disabled:cursor-not-allowed disabled:opacity-40">
                 Next

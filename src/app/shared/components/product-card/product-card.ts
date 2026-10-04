@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+﻿import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { ProductDto } from '../../../core/products/products-api';
@@ -9,7 +9,6 @@ import { CartStateService } from '../../../core/carts/cart-state.service';
   selector: 'app-product-card',
   imports: [RouterLink],
   templateUrl: './product-card.html',
-  styleUrl: './product-card.scss',
 })
 export class ProductCard {
   readonly product = input.required<ProductDto>();

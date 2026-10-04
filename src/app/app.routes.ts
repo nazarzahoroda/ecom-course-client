@@ -38,6 +38,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'categories',
+        loadComponent: () =>
+          import('./features/categories/categories-view/categories-view').then(
+            (m) => m.CategoriesView,
+          ),
+      },
+      {
         path: 'customer',
         canActivate: [authGuard],
         loadComponent: () =>

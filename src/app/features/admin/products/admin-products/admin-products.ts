@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+﻿import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import {
@@ -16,7 +16,6 @@ import { Button } from '../../../../shared/components/button/button';
   selector: 'app-admin-products',
   imports: [Button, ReactiveFormsModule],
   templateUrl: './admin-products.html',
-  styleUrl: './admin-products.scss',
 })
 export class AdminProducts {
   private readonly categoriesApi = inject(CategoriesApi);

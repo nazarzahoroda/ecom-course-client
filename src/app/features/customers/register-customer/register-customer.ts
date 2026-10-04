@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+﻿import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthApi, isProblemDetails } from '../../../core/auth/auth-api';
 import { Router, RouterLink } from '@angular/router';
@@ -7,7 +7,6 @@ import { Router, RouterLink } from '@angular/router';
   selector: 'app-register-customer',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './register-customer.html',
-  styleUrl: './register-customer.scss',
 })
 export class RegisterCustomer {
   private readonly fb = inject(FormBuilder);

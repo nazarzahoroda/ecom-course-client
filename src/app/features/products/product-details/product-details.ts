@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+﻿import { Component, OnInit, inject, signal } from '@angular/core';
 import { CartStateService } from '../../../core/carts/cart-state.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
@@ -15,7 +15,6 @@ import { CartApi } from '../../../core/carts/cart-api';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './product-details.html',
-  styleUrl: './product-details.scss',
 })
 export class ProductDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
@@ -34,7 +33,7 @@ export class ProductDetailsComponent implements OnInit {
     const productId = this.route.snapshot.paramMap.get('id');
 
     if (!productId) {
-      this.errorMessage.set('Невірний ID товару.');
+      this.errorMessage.set('РќРµРІС–СЂРЅРёР№ ID С‚РѕРІР°СЂСѓ.');
       this.isLoading.set(false);
       return;
     }
@@ -45,8 +44,8 @@ export class ProductDetailsComponent implements OnInit {
         this.isLoading.set(false);
       },
       error: (error) => {
-        console.error('Помилка:', error);
-        this.errorMessage.set('Не вдалося завантажити товар.');
+        console.error('РџРѕРјРёР»РєР°:', error);
+        this.errorMessage.set('РќРµ РІРґР°Р»РѕСЃСЏ Р·Р°РІР°РЅС‚Р°Р¶РёС‚Рё С‚РѕРІР°СЂ.');
         this.isLoading.set(false);
       },
     });

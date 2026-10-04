@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+﻿import { Component, input, output } from '@angular/core';
 
 import { CategoryDto } from '../../../core/categories/categories-api';
 import { Button } from '../button/button';
@@ -7,7 +7,6 @@ import { Button } from '../button/button';
   selector: 'app-category-card',
   imports: [Button],
   templateUrl: './category-card.html',
-  styleUrl: './category-card.scss',
 })
 export class CategoryCard {
   readonly category = input.required<CategoryDto>();
