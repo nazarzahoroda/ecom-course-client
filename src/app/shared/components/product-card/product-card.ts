@@ -1,4 +1,4 @@
-﻿import { Component, inject, input } from '@angular/core';
+﻿import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { ProductDto } from '../../../core/products/products-api';
@@ -16,7 +16,16 @@ export class ProductCard {
   readonly name = input.required<string>();
   readonly amount = input.required<number>();
   readonly currency = input.required<string>();
-  readonly imageUrl = input.required<string>();
+
+  protected readonly imageUrl = computed(() => {
+    const images = this.product().images ?? [];
+
+    return (
+      images.find((image) => image.isMain)?.url ??
+      images[0]?.url ??
+      null
+    );
+  });
 
   private readonly cartApi = inject(CartApi);
   protected readonly cartState = inject(CartStateService);

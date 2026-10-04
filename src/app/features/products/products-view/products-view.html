@@ -20,8 +20,7 @@
 
         @for (product of paginatedProducts(); track product.id) {
         <app-product-card [product]="product" [id]="product.id" [name]="product.name" [amount]="product.amount"
-            [currency]="getCurrencyCode(product.currency)"
-            [imageUrl]="product.images?.[0]?.url || 'https://placehold.co/400x300/f8fafc/94a3b8?text=Картинка+товару+формується'" />
+            [currency]="getCurrencyCode(product.currency)" />
         } @empty {
         <div class="col-span-full py-20 text-center text-gray-500">
             Товарів поки немає.
