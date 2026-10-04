@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+﻿import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import {
@@ -13,7 +13,6 @@ import { CategoryCard } from '../../../../shared/components/category-card/catego
   selector: 'app-admin-categories',
   imports: [Button, CategoryCard, ReactiveFormsModule],
   templateUrl: './admin-categories.html',
-  styleUrl: './admin-categories.scss',
 })
 export class AdminCategories {
   private readonly categoriesApi = inject(CategoriesApi);

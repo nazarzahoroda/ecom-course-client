@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+﻿import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
@@ -10,7 +10,6 @@ import { CartStateService } from '../../../core/carts/cart-state.service';
   selector: 'app-login-customer',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login-customer.html',
-  styleUrl: './login-customer.scss',
 })
 export class LoginCustomer {
   private readonly fb = inject(FormBuilder);
@@ -48,7 +47,13 @@ export class LoginCustomer {
               this.submitting.set(false);
               this.form.reset();
 
-              this.router.navigate(isAdmin ? ['/admin/products'] : ['/']);
+              if (isAdmin) {
+                this.router.navigate(['/admin/products']);
+                return;
+              }
+
+              this.cartState.loadCart();
+              this.router.navigate(['/']);
             },
             error: () => {
               this.submitting.set(false);

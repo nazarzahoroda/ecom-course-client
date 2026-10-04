@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+﻿import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { forkJoin, Observable } from 'rxjs';
 
@@ -16,7 +16,6 @@ const PAGE_SIZE = 10;
   standalone: true,
   imports: [DecimalPipe],
   templateUrl: './orders-view.html',
-  styleUrl: './orders-view.scss',
 })
 export class OrdersView implements OnInit {
   private readonly ordersApi = inject(OrdersApi);
