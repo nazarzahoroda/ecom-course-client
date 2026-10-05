@@ -1,5 +1,6 @@
 ﻿import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { finalize, switchMap, of } from 'rxjs';
 
 import {
   CategoriesApi,
@@ -25,6 +26,10 @@ export class AdminCategories {
 
   protected readonly isCategoryModalOpen = signal(false);
   protected readonly editingCategoryId = signal<string | null>(null);
+
+  protected readonly selectedImageFile = signal<File | null>(null);
+  protected readonly imagePreviewUrl = signal<string | null>(null);
+  protected readonly isUploading = signal(false);
 
   protected readonly totalPages = computed(() =>
     Math.ceil(this.categories().length / this.pageSize())
@@ -59,6 +64,46 @@ export class AdminCategories {
     });
   }
 
+  protected onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    const file = input.files[0];
+    this.selectedImageFile.set(file);
+
+    const objectUrl = URL.createObjectURL(file);
+    this.imagePreviewUrl.set(objectUrl);
+  }
+
+  protected removeSelectedImage(): void {
+    this.selectedImageFile.set(null);
+    this.imagePreviewUrl.set(null);
+  }
+  protected removeCurrentImage(): void {
+    const editingId = this.editingCategoryId();
+    const hasExistingImageOnServer = !this.selectedImageFile() && !!this.imagePreviewUrl();
+
+    if (editingId && hasExistingImageOnServer) {
+      this.isUploading.set(true);
+      this.categoriesApi
+        .deleteCategoryImage(editingId)
+        .pipe(finalize(() => this.isUploading.set(false)))
+        .subscribe({
+          next: () => {
+            this.selectedImageFile.set(null);
+            this.imagePreviewUrl.set(null);
+            this.loadCategories(); 
+          },
+          error: (err) => console.error('Failed to delete category image', err),
+        });
+      return;
+    }
+
+    this.selectedImageFile.set(null);
+    this.imagePreviewUrl.set(null);
+  }
   protected previousPage(): void {
     if (this.currentPage() > 1) {
       this.currentPage.update((page) => page - 1);
@@ -82,6 +127,7 @@ export class AdminCategories {
   protected openCreateCategoryModal(): void {
     this.editingCategoryId.set(null);
     this.categoryForm.reset();
+    this.removeSelectedImage();
     this.isCategoryModalOpen.set(true);
   }
 
@@ -92,42 +138,71 @@ export class AdminCategories {
       name: category.name,
     });
 
+    this.selectedImageFile.set(null);
+    this.imagePreviewUrl.set((category as any).imageUrl ?? null);
+
     this.isCategoryModalOpen.set(true);
   }
 
   protected cancelEditCategory(): void {
     this.editingCategoryId.set(null);
     this.categoryForm.reset();
+    this.removeSelectedImage();
     this.isCategoryModalOpen.set(false);
   }
 
-  protected createCategory(): void {
-    if (this.categoryForm.invalid) {
+  protected saveCategory(): void {
+    if (this.categoryForm.invalid || this.isUploading()) {
       return;
     }
 
     const request = this.categoryForm.getRawValue();
-    const editingCategoryId = this.editingCategoryId();
+    const editingId = this.editingCategoryId();
+    const file = this.selectedImageFile();
 
-    if (editingCategoryId) {
+    this.isUploading.set(true);
+
+    if (editingId) {
       this.categoriesApi
-        .updateCategory(editingCategoryId, request)
+        .updateCategory(editingId, request)
+        .pipe(
+          switchMap(() => {
+            if (file) {
+              return this.categoriesApi.uploadCategoryImageViaSas(editingId, file);
+            }
+            return of(null);
+          }),
+          finalize(() => this.isUploading.set(false))
+        )
         .subscribe({
           next: () => {
             this.cancelEditCategory();
             this.loadCategories();
           },
+          error: (err) => console.error('Failed to update category or image', err),
         });
-
       return;
     }
 
-    this.categoriesApi.createCategory(request).subscribe({
-      next: () => {
-        this.cancelEditCategory();
-        this.loadCategories();
-      },
-    });
+    this.categoriesApi
+      .createCategory(request)
+      .pipe(
+        switchMap((createdCategory: any) => {
+          const newCategoryId = createdCategory?.id ?? createdCategory;
+          if (file && newCategoryId) {
+            return this.categoriesApi.uploadCategoryImageViaSas(newCategoryId, file);
+          }
+          return of(null);
+        }),
+        finalize(() => this.isUploading.set(false))
+      )
+      .subscribe({
+        next: () => {
+          this.cancelEditCategory();
+          this.loadCategories();
+        },
+        error: (err) => console.error('Failed to create category or upload image', err),
+      });
   }
 
   protected deleteCategory(category: CategoryDto): void {
