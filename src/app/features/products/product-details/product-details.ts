@@ -41,6 +41,11 @@ export class ProductDetailsComponent implements OnInit {
     this.productsApi.getProductById(productId).subscribe({
       next: (product) => {
         this.product.set(product);
+
+        const mainImageIndex = product.images?.findIndex(image => image.isMain) ?? -1;
+
+        this.selectedImageIndex.set(mainImageIndex >= 0 ? mainImageIndex : 0);
+
         this.isLoading.set(false);
       },
       error: (error) => {

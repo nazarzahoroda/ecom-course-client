@@ -5,8 +5,14 @@
 
   <div [routerLink]="['/products', id()]"
     class="h-48 w-full bg-gray-50 flex items-center justify-center overflow-hidden relative cursor-pointer">
-    <img [src]="imageUrl()" [alt]="name()"
+    @if (imageUrl(); as image) {
+    <img [src]="image" [alt]="name()"
       class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+    } @else {
+    <div class="flex h-full w-full items-center justify-center bg-gray-100 text-sm text-gray-400">
+      No image
+    </div>
+    }
   </div>
 
   <div [routerLink]="['/products', id()]" class="p-5 flex flex-col flex-grow cursor-pointer">
