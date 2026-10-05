@@ -116,7 +116,7 @@
         </div>
 
         <!-- Product information -->
-        <div class="flex flex-col p-6 transition-colors duration-300 md:p-8" [class.bg-blue-50]="isAddedToCart()">
+        <div class="flex flex-col p-6 transition-colors duration-300 md:p-8" [class.bg-blue-50]="cartState.isProductInCart(product.id)">
 
             <h1 class="text-3xl font-medium tracking-tight text-gray-900 sm:text-4xl">
                 {{ product.name }}
@@ -138,7 +138,7 @@
             <div class="mt-8">
                 <button type="button" (click)="addToCart(product)" class="bg-[#e7eefc] px-6 py-3 text-sm font-medium text-[#3f6fd9]
            transition-colors hover:bg-[#d7e3fa] active:scale-[0.98]">
-                    @if (isAddedToCart()) {
+                    @if (cartState.isProductInCart(product.id)) {
                     Added to cart ✓
                     } @else {
                     Add to cart

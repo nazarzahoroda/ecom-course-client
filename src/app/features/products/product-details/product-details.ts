@@ -20,20 +20,19 @@ export class ProductDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly productsApi = inject(ProductsApi);
   private readonly cartApi = inject(CartApi);
-  private readonly cartState = inject(CartStateService);
+  protected readonly cartState = inject(CartStateService);
 
   protected readonly getCurrencyCode = getCurrencyCode;
 
   protected readonly product = signal<ProductDto | null>(null);
   protected readonly isLoading = signal(true);
   protected readonly errorMessage = signal<string | null>(null);
-  protected readonly isAddedToCart = signal(false);
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('id');
 
     if (!productId) {
-      this.errorMessage.set('РќРµРІС–СЂРЅРёР№ ID С‚РѕРІР°СЂСѓ.');
+      this.errorMessage.set('Невірний ID товару.');
       this.isLoading.set(false);
       return;
     }
@@ -49,8 +48,8 @@ export class ProductDetailsComponent implements OnInit {
         this.isLoading.set(false);
       },
       error: (error) => {
-        console.error('РџРѕРјРёР»РєР°:', error);
-        this.errorMessage.set('РќРµ РІРґР°Р»РѕСЃСЏ Р·Р°РІР°РЅС‚Р°Р¶РёС‚Рё С‚РѕРІР°СЂ.');
+        console.error('Помилка:', error);
+        this.errorMessage.set('Не вдалося завантажити товар.');
         this.isLoading.set(false);
       },
     });
@@ -61,7 +60,6 @@ export class ProductDetailsComponent implements OnInit {
       .addItemToCart({ productId: product.id, quantity: 1 })
       .subscribe({
         next: () => {
-          this.isAddedToCart.set(true);
           this.cartState.refresh();
         },
         error: (error) => {

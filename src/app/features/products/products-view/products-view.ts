@@ -59,7 +59,7 @@ export class ProductsView implements OnInit {
                 this.loading.set(false);
             },
             error: () => {
-                this.errorMessage.set('РќРµ РІРґР°Р»РѕСЃСЏ Р·Р°РІР°РЅС‚Р°Р¶РёС‚Рё С‚РѕРІР°СЂРё');
+                this.errorMessage.set('Не вдалося завантажити товари');
                 this.loading.set(false);
             },
         });
