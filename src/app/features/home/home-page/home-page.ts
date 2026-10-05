@@ -49,7 +49,7 @@ export class HomePage implements OnInit {
         this.categories.set(categories);
       },
       error: () => {
-        this.errorMessage.set('РќРµ РІРґР°Р»РѕСЃСЏ Р·Р°РІР°РЅС‚Р°Р¶РёС‚Рё РєР°С‚РµРіРѕСЂС–С—');
+        this.errorMessage.set('Не вдалося завантажити категорії');
         this.loading.set(false);
       },
     });
@@ -60,7 +60,7 @@ export class HomePage implements OnInit {
         this.loading.set(false);
       },
       error: () => {
-        this.errorMessage.set('РќРµ РІРґР°Р»РѕСЃСЏ Р·Р°РІР°РЅС‚Р°Р¶РёС‚Рё С‚РѕРІР°СЂРё');
+        this.errorMessage.set('Не вдалося завантажити товари');
         this.loading.set(false);
       },
     });
