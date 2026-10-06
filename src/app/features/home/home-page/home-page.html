@@ -25,7 +25,7 @@
 
             @for (category of categories(); track category.id) {
             <app-storefront-category-card [name]="category.name"
-                imageUrl="https://placehold.co/400x300/f8fafc/94a3b8?text=Category" />
+                [imageUrl]="category.imageUrl || 'https://placehold.co/400x300/f8fafc/94a3b8?text=Category'" />
             } @empty {
             <div class="col-span-full text-center py-10 text-gray-500">
                 Категорій поки немає.
