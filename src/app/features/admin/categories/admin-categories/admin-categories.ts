@@ -29,7 +29,11 @@ export class AdminCategories {
 
   protected readonly selectedImageFile = signal<File | null>(null);
   protected readonly imagePreviewUrl = signal<string | null>(null);
+  protected readonly isImageMarkedForDeletion = signal(false);
+  protected readonly imageError = signal<string | null>(null);
   protected readonly isUploading = signal(false);
+
+  private previewObjectUrl: string | null = null;
 
   protected readonly totalPages = computed(() =>
     Math.ceil(this.categories().length / this.pageSize())
@@ -66,43 +70,64 @@ export class AdminCategories {
 
   protected onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) {
+    const file = input.files?.[0];
+
+    if (!file) {
       return;
     }
 
-    const file = input.files[0];
-    this.selectedImageFile.set(file);
+    input.value = '';
 
-    const objectUrl = URL.createObjectURL(file);
-    this.imagePreviewUrl.set(objectUrl);
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
+    const maxFileSize = 5 * 1024 * 1024;
+
+    if (!allowedTypes.includes(file.type)) {
+      this.imageError.set('Only PNG, JPG and WEBP images are allowed.');
+      return;
+    }
+
+    if (file.size > maxFileSize) {
+      this.imageError.set('Image size must not exceed 5 MB.');
+      return;
+    }
+
+    this.imageError.set(null);
+
+    if (this.previewObjectUrl) {
+      URL.revokeObjectURL(this.previewObjectUrl);
+    }
+
+    this.previewObjectUrl = URL.createObjectURL(file);
+    this.selectedImageFile.set(file);
+    this.imagePreviewUrl.set(this.previewObjectUrl);
+    this.isImageMarkedForDeletion.set(false);
   }
 
   protected removeSelectedImage(): void {
-    this.selectedImageFile.set(null);
-    this.imagePreviewUrl.set(null);
-  }
-  protected removeCurrentImage(): void {
-    const editingId = this.editingCategoryId();
-    const hasExistingImageOnServer = !this.selectedImageFile() && !!this.imagePreviewUrl();
-
-    if (editingId && hasExistingImageOnServer) {
-      this.isUploading.set(true);
-      this.categoriesApi
-        .deleteCategoryImage(editingId)
-        .pipe(finalize(() => this.isUploading.set(false)))
-        .subscribe({
-          next: () => {
-            this.selectedImageFile.set(null);
-            this.imagePreviewUrl.set(null);
-            this.loadCategories(); 
-          },
-          error: (err) => console.error('Failed to delete category image', err),
-        });
-      return;
+    if (this.previewObjectUrl) {
+      URL.revokeObjectURL(this.previewObjectUrl);
+      this.previewObjectUrl = null;
     }
 
     this.selectedImageFile.set(null);
     this.imagePreviewUrl.set(null);
+    this.isImageMarkedForDeletion.set(false);
+    this.imageError.set(null);
+  }
+
+  protected removeCurrentImage(): void {
+    if (this.previewObjectUrl) {
+      URL.revokeObjectURL(this.previewObjectUrl);
+      this.previewObjectUrl = null;
+    }
+
+    this.selectedImageFile.set(null);
+    this.imagePreviewUrl.set(null);
+    this.imageError.set(null);
+
+    this.isImageMarkedForDeletion.set(
+      this.editingCategoryId() !== null
+    );
   }
   protected previousPage(): void {
     if (this.currentPage() > 1) {
@@ -132,22 +157,22 @@ export class AdminCategories {
   }
 
   protected startEditCategory(category: CategoryDto): void {
+    this.removeSelectedImage();
+
     this.editingCategoryId.set(category.id);
 
     this.categoryForm.setValue({
       name: category.name,
     });
 
-    this.selectedImageFile.set(null);
-    this.imagePreviewUrl.set((category as any).imageUrl ?? null);
-
+    this.imagePreviewUrl.set(category.imageUrl ?? null);
     this.isCategoryModalOpen.set(true);
   }
 
   protected cancelEditCategory(): void {
+    this.removeSelectedImage();
     this.editingCategoryId.set(null);
     this.categoryForm.reset();
-    this.removeSelectedImage();
     this.isCategoryModalOpen.set(false);
   }
 
@@ -159,7 +184,9 @@ export class AdminCategories {
     const request = this.categoryForm.getRawValue();
     const editingId = this.editingCategoryId();
     const file = this.selectedImageFile();
+    const shouldDeleteImage = this.isImageMarkedForDeletion();
 
+    this.imageError.set(null);
     this.isUploading.set(true);
 
     if (editingId) {
@@ -170,6 +197,11 @@ export class AdminCategories {
             if (file) {
               return this.categoriesApi.uploadCategoryImageViaSas(editingId, file);
             }
+
+            if (shouldDeleteImage) {
+              return this.categoriesApi.deleteCategoryImage(editingId);
+            }
+
             return of(null);
           }),
           finalize(() => this.isUploading.set(false))
@@ -179,19 +211,23 @@ export class AdminCategories {
             this.cancelEditCategory();
             this.loadCategories();
           },
-          error: (err) => console.error('Failed to update category or image', err),
+          error: (err) => {
+            console.error('Failed to update category or image', err);
+            this.imageError.set('Failed to save category changes. Please try again.');
+          },
         });
+
       return;
     }
 
     this.categoriesApi
       .createCategory(request)
       .pipe(
-        switchMap((createdCategory: any) => {
-          const newCategoryId = createdCategory?.id ?? createdCategory;
-          if (file && newCategoryId) {
-            return this.categoriesApi.uploadCategoryImageViaSas(newCategoryId, file);
+        switchMap((createdCategory) => {
+          if (file) {
+            return this.categoriesApi.uploadCategoryImageViaSas(createdCategory, file);
           }
+
           return of(null);
         }),
         finalize(() => this.isUploading.set(false))
@@ -201,7 +237,10 @@ export class AdminCategories {
           this.cancelEditCategory();
           this.loadCategories();
         },
-        error: (err) => console.error('Failed to create category or upload image', err),
+        error: (err) => {
+          console.error('Failed to create category or upload image', err);
+          this.imageError.set('Failed to create category or upload image. Please check the result before retrying.');
+        },
       });
   }
 
